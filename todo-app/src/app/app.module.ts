@@ -5,12 +5,13 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ContainerComponent } from './container/container.component';
-import { TodoModule } from './todo/todo.module';
-import { StatisticsModule } from './statistics/statistics.module';
-import { MaterialModule } from './material/material.module';
+import { TodoModule } from './modules/todo/todo.module';
+import { StatisticsModule } from './modules/statistics/statistics.module';
+import { MaterialModule } from './modules/material/material.module';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, ContainerComponent],
+  declarations: [AppComponent, ContainerComponent, HomeComponent],
   imports: [
     BrowserModule,
     AppRoutingModule,

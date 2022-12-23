@@ -2,10 +2,13 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
 import { StatisticsRoutingModule } from './statistics-routing.module';
+import { StatisticsContainerComponent } from './statistics-container/statistics-container.component';
 
 
 @NgModule({
-  declarations: [],
+  declarations: [
+    StatisticsContainerComponent
+  ],
   imports: [
     CommonModule,
     StatisticsRoutingModule
