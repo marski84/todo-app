@@ -4,6 +4,7 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
+import { ToDoTask } from '../models/todoTask.interface';
 
 @Component({
   selector: 'app-todo-table',
@@ -15,11 +16,67 @@ export class TodoTableListComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  todo = ['Get to work', 'Pick up groceries', 'Go home', 'Fall asleep'];
+  lists = [
+    {
+      id: 1,
+      name: 'To do',
+      tasks: [
+        {
+          title: 'Get to work',
+          description: 'Earn money',
+          priority: '4',
+        },
+        {
+          title: 'Pick up groceries',
+          description: 'okok',
+          priority: '1',
+        },
+        {
+          title: 'Go home',
+          description: 'come back home',
+          priority: '5',
+        },
+        {
+          title: 'Fall asleep',
+          description: 'rest',
+          priority: '2',
+        },
+      ],
+    },
 
-  done = ['Get up', 'Brush teeth', 'Take a shower', 'Check e-mail', 'Walk dog'];
+    {
+      id: 2,
+      name: 'In progress',
+      tasks: [],
+    },
+  ];
 
-  smth = ['a', 'b', 'c', 'd'];
+  todo: ToDoTask[] = [
+    {
+      title: 'Get to work',
+      description: 'Earn money',
+      priority: '4',
+    },
+    {
+      title: 'Pick up groceries',
+      description: 'okok',
+      priority: '1',
+    },
+    {
+      title: 'Go home',
+      description: 'come back home',
+      priority: '5',
+    },
+    {
+      title: 'Fall asleep',
+      description: 'rest',
+      priority: '2',
+    },
+  ];
+
+  done = [];
+
+  smth = [];
 
   drop(
     event: CdkDragDrop<string[]>
@@ -42,6 +99,10 @@ export class TodoTableListComponent implements OnInit {
       );
     }
     console.log(this.todo);
+  }
+
+  handleAddNewTask(data: ToDoTask[]) {
+    console.log(data);
   }
 
   addColumn() {}

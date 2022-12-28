@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatTableModule } from '@angular/material/table';
 import { DragDropModule } from '@angular/cdk/drag-drop';
+import { MatSelectModule } from '@angular/material/select';
 
 @NgModule({
   declarations: [],
@@ -27,6 +28,7 @@ import { DragDropModule } from '@angular/cdk/drag-drop';
     MatInputModule,
     MatTableModule,
     DragDropModule,
+    MatSelectModule,
   ],
 })
 export class MaterialModule {}

@@ -1,49 +1,26 @@
-<ng-container cdkDropListGroup>
+<div
+    class="app-container"
+    cdkDropListGroup
+>
 
-    <div class="example-container">
-        <h2>To do</h2>
-
-        <div
-            cdkDropList
-            [cdkDropListData]="todo"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)"
-        >
-            <div
-                class="example-box"
-                *ngFor="let item of todo"
-                cdkDrag
-            >
-                {{item}}
-            </div>
-        </div>
-    </div>
-
-    <div class="example-container">
-        <h2>Done</h2>
-
-        <div
-            cdkDropList
-            [cdkDropListData]="done"
-            class="example-list"
-            (cdkDropListDropped)="drop($event)"
-        >
-            <div
-                class="example-box"
-                *ngFor="let item of done"
-                cdkDrag
-            >
-                {{item}}
-            </div>
-        </div>
-
+    <div
+        class="example-container"
+        *ngFor="let list of lists"
+    >
         <app-todo
-            [dropListData]="smth"
+            [listName]="list.name"
+            [dropListData]="list"
+            (onTaskAddedEmitted)="handleAddNewTask($event)"
             (onItemDroppedEmitted)="drop($event)"
         ></app-todo>
     </div>
 
     <div class="button-container">
-        <button (click)="addColumn()">Add coulmn</button>
+        <button
+            mat-raised-button
+            (click)="addColumn()"
+        >
+            Add coulmn
+        </button>
     </div>
-</ng-container>
+</div>

@@ -1,0 +1,60 @@
+<div>
+    <form
+        [formGroup]="todoForm"
+        class="form-container"
+    >
+
+        <mat-form-field appearance="fill">
+            <mat-label>Title</mat-label>
+            <input
+                matInput
+                [formControl]="titleCtrl"
+            >
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+            <mat-label>Description</mat-label>
+            <input
+                matInput
+                [formControl]="descriptionCtrl"
+            >
+        </mat-form-field>
+
+        <mat-form-field>
+            <mat-label>Priority</mat-label>
+            <mat-select [formControl]="priorityCtrl">
+                <mat-option
+                    *ngFor="let priorityLevel of priorityLevels"
+                    [value]="priorityLevel"
+                >
+                    {{priorityLevel}}
+                </mat-option>
+            </mat-select>
+        </mat-form-field>
+
+        <div
+            mat-dialog-actions
+            class="mat-dialog-actions-container"
+        >
+
+            <button
+                (click)="handleAddTask(todoForm.value)"
+                mat-button
+                mat-dialog-close
+                cdkFocusInitial
+            >
+                Add
+            </button>
+
+            <button
+                (click)="handleAddTaskCancel()"
+                mat-button
+                mat-dialog-close
+            >
+                Cancel
+            </button>
+        </div>
+
+    </form>
+
+</div>
