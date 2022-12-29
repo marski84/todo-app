@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToDoTask } from '../models/todoTask.interface';
 
 @Component({
@@ -8,8 +8,13 @@ import { ToDoTask } from '../models/todoTask.interface';
 })
 export class TodoTaskViewComponent implements OnInit {
   @Input() todoTaskData!: ToDoTask;
+  @Output() editDataEmitted = new EventEmitter<ToDoTask>();
 
   constructor() {}
 
   ngOnInit(): void {}
+
+  handleTaskEdit(formData: ToDoTask) {
+    this.editDataEmitted.emit(formData);
+  }
 }

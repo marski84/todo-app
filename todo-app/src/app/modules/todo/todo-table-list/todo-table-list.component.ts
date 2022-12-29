@@ -5,6 +5,8 @@ import {
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { ToDoTask } from '../models/todoTask.interface';
+import * as uuid from 'uuid';
+import { dropListData } from '../models/dropListData.interface';
 
 @Component({
   selector: 'app-todo-table',
@@ -16,27 +18,31 @@ export class TodoTableListComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  lists = [
+  lists: dropListData[] = [
     {
-      id: 1,
+      listId: uuid.v4(),
       name: 'To do',
       tasks: [
         {
+          id: uuid.v4(),
           title: 'Get to work',
           description: 'Earn money',
           priority: '4',
         },
         {
+          id: uuid.v4(),
           title: 'Pick up groceries',
           description: 'okok',
           priority: '1',
         },
         {
+          id: uuid.v4(),
           title: 'Go home',
           description: 'come back home',
           priority: '5',
         },
         {
+          id: uuid.v4(),
           title: 'Fall asleep',
           description: 'rest',
           priority: '2',
@@ -45,7 +51,7 @@ export class TodoTableListComponent implements OnInit {
     },
 
     {
-      id: 2,
+      listId: uuid.v4(),
       name: 'In progress',
       tasks: [],
     },
@@ -53,21 +59,25 @@ export class TodoTableListComponent implements OnInit {
 
   todo: ToDoTask[] = [
     {
+      id: uuid.v4(),
       title: 'Get to work',
       description: 'Earn money',
       priority: '4',
     },
     {
+      id: uuid.v4(),
       title: 'Pick up groceries',
       description: 'okok',
       priority: '1',
     },
     {
+      id: uuid.v4(),
       title: 'Go home',
       description: 'come back home',
       priority: '5',
     },
     {
+      id: uuid.v4(),
       title: 'Fall asleep',
       description: 'rest',
       priority: '2',
@@ -105,5 +115,8 @@ export class TodoTableListComponent implements OnInit {
     console.log(data);
   }
 
-  addColumn() {}
+  addColumn() {
+    // const maxId = this.lists.sort((a, b) => b.listId - a.listId)[0].id;
+    // console.log(maxId);
+  }
 }

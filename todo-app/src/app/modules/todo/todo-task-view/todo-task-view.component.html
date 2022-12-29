@@ -10,4 +10,13 @@
             Task priority: {{todoTaskData.priority}}
         </div>
     </mat-card-content>
+
+    <mat-card-actions>
+        <button
+            mat-raised-button
+            (click)="handleTaskEdit(todoTaskData)"
+        >
+            Edit
+        </button>
+    </mat-card-actions>
 </mat-card>

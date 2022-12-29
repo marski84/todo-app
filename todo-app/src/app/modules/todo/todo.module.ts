@@ -5,7 +5,7 @@ import { TodoRoutingModule } from './todo-routing.module';
 import { TodoTableListComponent } from './todo-table-list/todo-table-list.component';
 import { MaterialModule } from '../material/material.module';
 import { TodoTableElemmentComponent } from './todo-table-element/todo-table-element.component';
-import { TodoTaskComponent } from './add-todo-task/add-todo-task.component';
+import { TodoTaskFormComponent } from './todo-task-form/todo-task-form.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TodoTaskViewComponent } from './todo-task-view/todo-task-view.component';
@@ -14,7 +14,7 @@ import { TodoTaskViewComponent } from './todo-task-view/todo-task-view.component
   declarations: [
     TodoTableListComponent,
     TodoTableElemmentComponent,
-    TodoTaskComponent,
+    TodoTaskFormComponent,
     TodoTaskViewComponent,
   ],
   imports: [

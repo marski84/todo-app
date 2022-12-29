@@ -1,10 +1,11 @@
 import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TodoTaskComponent } from '../add-todo-task/add-todo-task.component';
-import { mapTo, tap } from 'rxjs';
+import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
+import { filter, map, mapTo, tap } from 'rxjs';
 import { ToDoTask } from '../models/todoTask.interface';
 import { dropListData } from '../models/dropListData.interface';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-todo',
@@ -19,7 +20,7 @@ export class TodoTableElemmentComponent implements OnInit {
 
   constructor(private addTaskDialog: MatDialog) {}
 
-  addTaskDialogSettings: MatDialogConfig<TodoTaskComponent> = {
+  addTaskDialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
     width: '300px',
     height: '300px',
   };
@@ -32,16 +33,55 @@ export class TodoTableElemmentComponent implements OnInit {
 
   handleAddNewTask() {
     const dialogRef = this.addTaskDialog.open(
-      TodoTaskComponent,
+      TodoTaskFormComponent,
       this.addTaskDialogSettings
     );
 
     dialogRef
       .afterClosed()
       .pipe(
+        filter((value) => !!value),
+        tap((value) => console.log(value)),
+        map((value) => {
+          const newTask = value;
+          newTask.id = uuid.v4;
+          return newTask;
+        }),
         tap((value) => this.dropListData.tasks.push(value)),
         tap((value) => this.onTaskAddedEmitted.emit(this.dropListData))
       )
       .subscribe((value) => console.log(value));
+  }
+
+  handleTaskEdt(formData: ToDoTask) {
+    const editTaskDialogSettings: MatDialogConfig<any> = {
+      width: '300px',
+      height: '300px',
+      data: formData,
+    };
+
+    const dialogRef = this.addTaskDialog.open(
+      TodoTaskFormComponent,
+      editTaskDialogSettings
+    );
+    dialogRef
+      .afterClosed()
+      .pipe(
+        filter((value) => !!value),
+        map((value) => this.findAndUpdateEditedData(value)),
+        tap((value) => console.log(value))
+        // tap((value) => this.onTaskAddedEmitted.emit(this.dropListData))
+      )
+      .subscribe();
+  }
+
+  private findAndUpdateEditedData(formData: ToDoTask) {
+    const taskIndex = this.dropListData.tasks.findIndex(
+      (task) => task.id === formData.id
+    );
+
+    if (taskIndex !== -1) {
+      this.dropListData.tasks[taskIndex] = formData;
+    }
   }
 }

@@ -13,7 +13,10 @@
             cdkDrag
         >
 
-            <app-todo-task-view [todoTaskData]="task"></app-todo-task-view>
+            <app-todo-task-view
+                [todoTaskData]="task"
+                (editDataEmitted)="handleTaskEdt($event)"
+            ></app-todo-task-view>
 
         </div>
     </div>

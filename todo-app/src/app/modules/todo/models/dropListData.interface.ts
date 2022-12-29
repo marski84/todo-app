@@ -1,7 +1,7 @@
 import { ToDoTask } from './todoTask.interface';
 
 export interface dropListData {
-  id: number;
+  listId: string;
   name: string;
   tasks: ToDoTask[];
 }
