@@ -6,6 +6,7 @@ import { filter, map, mapTo, tap } from 'rxjs';
 import { ToDoTask } from '../models/todoTask.interface';
 import { dropListData } from '../models/dropListData.interface';
 import * as uuid from 'uuid';
+import { TodoApiService } from '../todo-api.service';
 
 @Component({
   selector: 'app-todo',
@@ -16,7 +17,8 @@ export class TodoTableElemmentComponent implements OnInit {
   @Input() dropListData!: dropListData;
   @Input() listName!: string;
   @Output() onItemDroppedEmitted = new EventEmitter();
-  @Output() onTaskAddedEmitted = new EventEmitter();
+  @Output() onTaskAddedEmitted = new EventEmitter<dropListData>();
+  @Output() onTaskEditedEmitted = new EventEmitter<dropListData>();
 
   constructor(private addTaskDialog: MatDialog) {}
 
@@ -82,6 +84,7 @@ export class TodoTableElemmentComponent implements OnInit {
 
     if (taskIndex !== -1) {
       this.dropListData.tasks[taskIndex] = formData;
+      this.onTaskEditedEmitted.emit(this.dropListData);
     }
   }
 }

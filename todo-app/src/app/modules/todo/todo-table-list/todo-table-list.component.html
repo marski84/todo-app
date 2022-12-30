@@ -5,12 +5,13 @@
 
     <div
         class="example-container"
-        *ngFor="let list of lists"
+        *ngFor="let list of taksLists"
     >
         <app-todo
             [listName]="list.name"
             [dropListData]="list"
             (onTaskAddedEmitted)="handleAddNewTask($event)"
+            (onTaskEditedEmitted)="handleEditTask($event)"
             (onItemDroppedEmitted)="drop($event)"
         ></app-todo>
     </div>

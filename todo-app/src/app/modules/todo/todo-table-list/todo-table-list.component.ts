@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { ToDoTask } from '../models/todoTask.interface';
 import * as uuid from 'uuid';
 import { dropListData } from '../models/dropListData.interface';
+import { TodoApiService } from '../todo-api.service';
+import { tap } from 'rxjs';
 
 @Component({
   selector: 'app-todo-table',
@@ -14,84 +16,19 @@ import { dropListData } from '../models/dropListData.interface';
   styleUrls: ['./todo-table-list.component.scss'],
 })
 export class TodoTableListComponent implements OnInit {
-  constructor() {}
+  constructor(private todoService: TodoApiService) {}
 
-  ngOnInit(): void {}
+  taksLists: dropListData[] = [];
 
-  lists: dropListData[] = [
-    {
-      listId: uuid.v4(),
-      name: 'To do',
-      tasks: [
-        {
-          id: uuid.v4(),
-          title: 'Get to work',
-          description: 'Earn money',
-          priority: '4',
-        },
-        {
-          id: uuid.v4(),
-          title: 'Pick up groceries',
-          description: 'okok',
-          priority: '1',
-        },
-        {
-          id: uuid.v4(),
-          title: 'Go home',
-          description: 'come back home',
-          priority: '5',
-        },
-        {
-          id: uuid.v4(),
-          title: 'Fall asleep',
-          description: 'rest',
-          priority: '2',
-        },
-      ],
-    },
+  ngOnInit(): void {
+    // window.localStorage.setItem('taskLists', JSON.stringify(this.taksLists));
+    this.todoService
+      .getTaskLists()
+      .pipe(tap((taskLists) => (this.taksLists = taskLists)))
+      .subscribe();
+  }
 
-    {
-      listId: uuid.v4(),
-      name: 'In progress',
-      tasks: [],
-    },
-  ];
-
-  todo: ToDoTask[] = [
-    {
-      id: uuid.v4(),
-      title: 'Get to work',
-      description: 'Earn money',
-      priority: '4',
-    },
-    {
-      id: uuid.v4(),
-      title: 'Pick up groceries',
-      description: 'okok',
-      priority: '1',
-    },
-    {
-      id: uuid.v4(),
-      title: 'Go home',
-      description: 'come back home',
-      priority: '5',
-    },
-    {
-      id: uuid.v4(),
-      title: 'Fall asleep',
-      description: 'rest',
-      priority: '2',
-    },
-  ];
-
-  done = [];
-
-  smth = [];
-
-  drop(
-    event: CdkDragDrop<string[]>
-    // CdkDragDrop<string[]>
-  ) {
+  drop(event: CdkDragDrop<any>) {
     console.log(event);
 
     if (event.previousContainer === event.container) {
@@ -108,11 +45,21 @@ export class TodoTableListComponent implements OnInit {
         event.currentIndex
       );
     }
-    console.log(this.todo);
   }
 
-  handleAddNewTask(data: ToDoTask[]) {
+  handleAddNewTask(data: any) {
     console.log(data);
+  }
+
+  handleEditTask(data: dropListData) {
+    console.log(data);
+    const listIndex = this.taksLists.findIndex(
+      (taskList) => taskList.listId === data.listId
+    );
+    if (listIndex !== -1) {
+      this.taksLists[listIndex] = data;
+      this.todoService.saveTaskLists(this.taksLists);
+    }
   }
 
   addColumn() {
