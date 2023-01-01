@@ -1,1 +1,6 @@
-<p>statistics-container works!</p>
+<ng-container *ngIf="taskListDataObservable$ | async as taskListData; else noData">
+    <app-statistics-view [taskListData]="taskListData"></app-statistics-view>
+
+</ng-container>
+
+<ng-template #noData>No task data recevied!</ng-template>

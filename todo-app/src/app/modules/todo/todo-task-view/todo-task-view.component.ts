@@ -9,6 +9,7 @@ import { ToDoTask } from '../models/todoTask.interface';
 export class TodoTaskViewComponent implements OnInit {
   @Input() todoTaskData!: ToDoTask;
   @Output() editDataEmitted = new EventEmitter<ToDoTask>();
+  @Output() taskDeleteEmitted = new EventEmitter<ToDoTask>();
 
   constructor() {}
 
@@ -16,5 +17,9 @@ export class TodoTaskViewComponent implements OnInit {
 
   handleTaskEdit(formData: ToDoTask) {
     this.editDataEmitted.emit(formData);
+  }
+
+  handleTaskDelete(formData: ToDoTask) {
+    this.taskDeleteEmitted.emit(formData);
   }
 }

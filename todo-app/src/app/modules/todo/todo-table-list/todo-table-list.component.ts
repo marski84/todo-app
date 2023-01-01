@@ -4,8 +4,6 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { ToDoTask } from '../models/todoTask.interface';
-import * as uuid from 'uuid';
 import { dropListData } from '../models/dropListData.interface';
 import { TodoApiService } from '../todo-api.service';
 import { tap } from 'rxjs';
@@ -45,21 +43,21 @@ export class TodoTableListComponent implements OnInit {
         event.currentIndex
       );
     }
+    this.saveTaskLists();
   }
 
-  handleAddNewTask(data: any) {
-    console.log(data);
-  }
-
-  handleEditTask(data: dropListData) {
-    console.log(data);
+  handleTaskListModification(data: dropListData) {
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );
     if (listIndex !== -1) {
       this.taksLists[listIndex] = data;
-      this.todoService.saveTaskLists(this.taksLists);
+      this.saveTaskLists();
     }
+  }
+
+  private saveTaskLists() {
+    this.todoService.saveTaskLists(this.taksLists);
   }
 
   addColumn() {

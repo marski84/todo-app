@@ -16,6 +16,7 @@
             <app-todo-task-view
                 [todoTaskData]="task"
                 (editDataEmitted)="handleTaskEdt($event)"
+                (taskDeleteEmitted)="handleTaskDelete($event)"
             ></app-todo-task-view>
 
         </div>

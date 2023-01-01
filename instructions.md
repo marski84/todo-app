@@ -24,10 +24,11 @@ Typowa lista TODO
 * Component do dodawania nowego task'a(tytuł+opis+priorytet) -> otwierany jako popup po kliknięciu przycisku.
 * Lista zadań TODO analogicznie do np. trello czyli nazwane kolumny z możliwością dodawania kolejnych kolumn.
 * W każdej kolumnie z góry w dół kolejne taski - kazdy task pokazuje tytuł po kliknięciu w task otwieramy popup z edycją.
-* Obok tytułu widoczny checkbox oznaczający zakończony task.
 * Możliwość przeciągania tasków z jednej kolumny do drugiej.
 * Możliwość zmiany kolejności tasków w obrębie kolumny za pomocą przeciągnięcia.
 * Taski oraz kolumny zapisujemy w Local Storage
+
+* Obok tytułu widoczny checkbox oznaczający zakończony task.
 
 - [ ] Popup do dodawania/edycji tasków
 

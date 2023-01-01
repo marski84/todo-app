@@ -19,6 +19,7 @@ export class TodoTableElemmentComponent implements OnInit {
   @Output() onItemDroppedEmitted = new EventEmitter();
   @Output() onTaskAddedEmitted = new EventEmitter<dropListData>();
   @Output() onTaskEditedEmitted = new EventEmitter<dropListData>();
+  @Output() onTaskDeletedEmitted = new EventEmitter<dropListData>();
 
   constructor(private addTaskDialog: MatDialog) {}
 
@@ -77,14 +78,24 @@ export class TodoTableElemmentComponent implements OnInit {
       .subscribe();
   }
 
+  handleTaskDelete(formData: ToDoTask) {
+    const taskIndex = this.findTaskInListData(formData);
+
+    this.dropListData.tasks.splice(taskIndex, 1);
+    this.onTaskDeletedEmitted.emit(this.dropListData);
+  }
+
   private findAndUpdateEditedData(formData: ToDoTask) {
+    const taskIndex = this.findTaskInListData(formData);
+
+    this.dropListData.tasks[taskIndex] = formData;
+    this.onTaskEditedEmitted.emit(this.dropListData);
+  }
+
+  private findTaskInListData(formData: ToDoTask) {
     const taskIndex = this.dropListData.tasks.findIndex(
       (task) => task.id === formData.id
     );
-
-    if (taskIndex !== -1) {
-      this.dropListData.tasks[taskIndex] = formData;
-      this.onTaskEditedEmitted.emit(this.dropListData);
-    }
+    return taskIndex;
   }
 }

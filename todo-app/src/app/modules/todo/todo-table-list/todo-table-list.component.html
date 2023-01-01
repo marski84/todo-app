@@ -10,8 +10,9 @@
         <app-todo
             [listName]="list.name"
             [dropListData]="list"
-            (onTaskAddedEmitted)="handleAddNewTask($event)"
-            (onTaskEditedEmitted)="handleEditTask($event)"
+            (onTaskAddedEmitted)="handleTaskListModification($event)"
+            (onTaskEditedEmitted)="handleTaskListModification($event)"
+            (onTaskDeletedEmitted)="handleTaskListModification($event)"
             (onItemDroppedEmitted)="drop($event)"
         ></app-todo>
     </div>

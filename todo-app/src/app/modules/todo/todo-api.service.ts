@@ -21,7 +21,6 @@ export class TodoApiService {
     const dataToSave = JSON.stringify(taskLists);
     window.localStorage.setItem('taskLists', dataToSave);
 
-    // const value = JSON.stringify(dropListData);
     return of(true);
   }
 }
