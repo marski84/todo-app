@@ -1,6 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { dropListData } from '../models/dropListData.interface';
 import { ToDoTask } from '../models/todoTask.interface';
+import { taskMapping } from '../models/taskListMapping.interface';
 
 @Component({
   selector: 'app-statistics-view',
@@ -10,38 +11,62 @@ import { ToDoTask } from '../models/todoTask.interface';
 
 // * Po wejściu zliczamy ile zadań jest w takiej kolumnie(dzielimy zliczenie na poszczególne priortety -> ile z wysokim, ile z niskim...) i wyświetlamy informacje o każdej kolumnie w osobnych `<mat-card>`
 export class StatisticsViewComponent implements OnInit {
-  @Input() taskListData!: dropListData[];
+  @Input() taskListData!: taskMapping[];
 
   constructor() {}
 
   ngOnInit(): void {
-    this.taskListData.map((taskList) => {
-      // taskList.tasks.forEach((task) => console.log(task.priority));
-      const a = taskList.tasks.sort(
-        (a, b) => Number(a.priority) - Number(b.priority)
-      );
+    console.log(this.taskListData);
 
-      const listOfpriorites = [
-        ...new Set(taskList.tasks.map((task) => task.priority)),
-      ];
-      console.log(listOfpriorites);
-
-      const temp = {
-        name: taskList.name,
-      };
-
-      // Object.defineProperty(object1, 'property1', {
-      //   value: 42,
-      //   writable: false
-      // });
-
-      listOfpriorites.forEach((item) =>
-        Object.defineProperty(temp, item, {
-          value: 0,
-          writable: true,
-        })
-      );
-      console.log(temp);
-    });
+    // const taskListMapping = this.createMapping(this.taskListData);
+    // console.log(taskListMapping);
+    // taskListMapping.map((taskList, mappingIndex) => {
+    //   const taskKeys = Object.keys(taskList);
+    //   const sortedPriorities = this.taskListData[mappingIndex].tasks
+    //     .sort((a, b) => Number(a.priority) - Number(b.priority))
+    //     .map((task) => task.priority);
+    //   sortedPriorities.forEach((priority) => {
+    //     taskKeys.forEach((key) => {
+    //       if (key === priority) {
+    //         console.log(key, priority);
+    //         console.log(taskListMapping[mappingIndex]);
+    //         taskListMapping[mappingIndex][key as keyof taskMapping] += 1;
+    //       }
+    //     });
+    //   });
+    //   console.log(taskListMapping);
+    //   taskList;
+    // });
+    // this.taskListData.map((taskList) => {
+    //   const sortedPriorities = taskList.tasks
+    //     .sort((a, b) => Number(a.priority) - Number(b.priority))
+    //     .map((task) => task.priority);
+    //   const listOfpriorites = [...new Set(sortedPriorities)];
+    //   const tempObject = {
+    //     name: taskList.name,
+    //   };
+    //   listOfpriorites.forEach((item) =>
+    //     Object.defineProperty(tempObject, item, {
+    //       value: 0,
+    //       writable: true,
+    //       enumerable: true,
+    //       configurable: true,
+    //     })
+    //   );
+    //   const tempKeys = Object.keys(tempObject);
+    //   sortedPriorities.forEach((priority) => {
+    //     // if (temp[priority])
+    //     console.log(priority);
+    //     tempKeys.forEach((key, index) => {
+    //       if (key === priority) {
+    //         // console.log(key);
+    //         console.log(tempObject[key as keyof typeof tempObject]);
+    //         // console.log(tempValue[index]);
+    //         tempObject[key as keyof typeof tempObject] += 1;
+    //       }
+    //     });
+    //     console.log(tempObject);
+    //   });
+    // });
   }
 }

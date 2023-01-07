@@ -21,12 +21,12 @@ export class TodoTableElemmentComponent implements OnInit {
   @Output() onTaskEditedEmitted = new EventEmitter<dropListData>();
   @Output() onTaskDeletedEmitted = new EventEmitter<dropListData>();
 
-  constructor(private addTaskDialog: MatDialog) {}
-
   addTaskDialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
     width: '300px',
     height: '300px',
   };
+
+  constructor(private addTaskDialog: MatDialog) {}
 
   ngOnInit(): void {}
 

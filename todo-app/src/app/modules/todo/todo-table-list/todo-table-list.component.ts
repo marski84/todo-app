@@ -14,9 +14,8 @@ import { tap } from 'rxjs';
   styleUrls: ['./todo-table-list.component.scss'],
 })
 export class TodoTableListComponent implements OnInit {
-  constructor(private todoService: TodoApiService) {}
-
   taksLists: dropListData[] = [];
+  constructor(private todoService: TodoApiService) {}
 
   ngOnInit(): void {
     // window.localStorage.setItem('taskLists', JSON.stringify(this.taksLists));
@@ -57,6 +56,7 @@ export class TodoTableListComponent implements OnInit {
   }
 
   private saveTaskLists() {
+    // dodać sub'a
     this.todoService.saveTaskLists(this.taksLists);
   }
 

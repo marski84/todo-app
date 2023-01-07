@@ -1,5 +1,5 @@
 export interface navigationLink {
   location: string;
   label: string;
-  index: number;
+  index: number; // do wywalenia
 }

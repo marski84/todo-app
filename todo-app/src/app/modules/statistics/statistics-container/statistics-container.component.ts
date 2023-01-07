@@ -7,9 +7,8 @@ import { StatisticsApiService } from '../statistics-api.service';
   styleUrls: ['./statistics-container.component.scss'],
 })
 export class StatisticsContainerComponent implements OnInit {
-  constructor(private statisticsApiService: StatisticsApiService) {}
-
   taskListDataObservable$ = this.statisticsApiService.getTaskList();
+  constructor(private statisticsApiService: StatisticsApiService) {}
 
   ngOnInit(): void {}
 }

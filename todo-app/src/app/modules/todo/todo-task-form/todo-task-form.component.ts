@@ -55,7 +55,7 @@ export class TodoTaskFormComponent implements OnInit {
   handleAddTask(data: ToDoTask) {
     if (this.data) {
       const editedData = data;
-      data.id = this.data.id;
+      editedData.id = this.data.id;
       this.dialogRef.close(editedData);
       console.log(editedData);
     }
