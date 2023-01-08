@@ -10,19 +10,14 @@ import { navigationLink } from '../models/navigationLink.interface';
 export class ContainerComponent implements OnInit {
   activeLinkIndex = -1;
   navLinks: navigationLink[] = [
-    { location: 'todo', label: 'ToDo list', index: 0 },
-    { location: 'stats', label: 'Statistics', index: 1 },
+    { location: 'todo', label: 'ToDo list' },
+    { location: 'stats', label: 'Statistics' },
   ];
   activeLink!: navigationLink;
 
   constructor(private router: Router) {}
 
   ngOnInit(): void {
-    this.router.events.subscribe((res) =>
-      // (this.activeLinkIndex = this.navLinks.indexOf(
-      //   this.navLinks.find((tab) => tab.link === '.' + this.router.url)
-      // ))
-      console.log(res)
-    );
+    this.router.events.subscribe((res) => console.log(res));
   }
 }

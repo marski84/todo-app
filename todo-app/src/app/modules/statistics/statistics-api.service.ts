@@ -15,8 +15,6 @@ export class StatisticsApiService {
       const data = JSON.parse(taskData);
 
       const dataMapping = this.createMapping(data);
-      console.log(dataMapping);
-      console.log(typeof dataMapping);
 
       return of(dataMapping);
     }
@@ -26,33 +24,30 @@ export class StatisticsApiService {
   private createMapping(taskListData: dropListData[]) {
     const listDataMapping: taskMapping[] = taskListData.map((taskList) => ({
       name: taskList.name,
-      1: 0,
-      2: 0,
-      3: 0,
-      4: 0,
-      5: 0,
+      priority: {
+        Low: 0,
+        Medium: 0,
+        High: 0,
+      },
     }));
 
     listDataMapping.forEach((list, index) => {
-      const listKeys = Object.keys(list);
+      const listKeys = Object.keys(list.priority);
 
       const tasksPriority = taskListData[index].tasks.map(
         (taskList) => taskList.priority
       );
 
-      console.log(listDataMapping[index]);
-
       listKeys.forEach((listKey) => {
         // get each list key and check if it is on priority list
         tasksPriority.forEach((taskPriority) => {
           if (taskPriority === listKey) {
-            listDataMapping[index][listKey] += 1;
+            const key = listKey;
+            listDataMapping[index].priority[key] += 1;
           }
         });
       });
     });
-    // console.log(listDataMapping);
-    console.log(listDataMapping);
 
     return listDataMapping;
   }

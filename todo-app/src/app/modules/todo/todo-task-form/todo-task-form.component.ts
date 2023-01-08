@@ -7,6 +7,7 @@ import {
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ToDoTask } from '../models/todoTask.interface';
+import { taskPriority } from '../models/taskPriority.enum';
 
 @Component({
   selector: 'todo-task-form',
@@ -16,7 +17,11 @@ import { ToDoTask } from '../models/todoTask.interface';
 export class TodoTaskFormComponent implements OnInit {
   todoForm!: FormGroup;
 
-  priorityLevels = ['1', '2', '3', '4', '5'];
+  priorityLevels: taskPriority[] = [
+    taskPriority.HIGH,
+    taskPriority.MEDIUM,
+    taskPriority.LOW,
+  ];
 
   get titleCtrl() {
     return this.todoForm.get('title') as FormControl;
@@ -57,7 +62,6 @@ export class TodoTaskFormComponent implements OnInit {
       const editedData = data;
       editedData.id = this.data.id;
       this.dialogRef.close(editedData);
-      console.log(editedData);
     }
     this.dialogRef.close(data);
   }

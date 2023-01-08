@@ -1,5 +1,4 @@
 <ng-container *ngIf="taskListDataObservable$ | async as taskListData; else noData">
-    {{taskListData | json}}
     <app-statistics-view [taskListData]="taskListData"></app-statistics-view>
 
 </ng-container>

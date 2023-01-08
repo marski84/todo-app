@@ -6,7 +6,6 @@ import { filter, map, mapTo, tap } from 'rxjs';
 import { ToDoTask } from '../models/todoTask.interface';
 import { dropListData } from '../models/dropListData.interface';
 import * as uuid from 'uuid';
-import { TodoApiService } from '../todo-api.service';
 
 @Component({
   selector: 'app-todo',

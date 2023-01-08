@@ -2,6 +2,19 @@
     <ul *ngFor="let taskList of taskListData">
         <mat-card>
             <mat-card-title>{{taskList.name}}</mat-card-title>
+
+            <mat-card-content>
+                Low priority:  {{taskList.priority.Low}}
+            </mat-card-content>
+
+            <mat-card-content>
+                Medium priority: {{taskList.priority.Medium}}
+            </mat-card-content>
+
+            <mat-card-content>
+                High priority: {{taskList.priority.High}}
+            </mat-card-content>
+
         </mat-card>
     </ul>
 </ng-container>
