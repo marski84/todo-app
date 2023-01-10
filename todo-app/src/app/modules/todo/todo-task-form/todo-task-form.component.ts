@@ -54,6 +54,7 @@ export class TodoTaskFormComponent implements OnInit {
       title: [formData?.title, Validators.required],
       description: [formData?.description, Validators.required],
       priority: [formData?.priority, Validators.required],
+      isFinished: [false],
     });
   }
 

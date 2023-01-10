@@ -9,12 +9,11 @@
         (click)="activeLink = link"
         [active]="activeLink == link"
         [routerLink]="link.location"
+        [routerLinkActive]="'tab-active'"
     >
-        <!-- [routerLinkActive]="" -->
         {{link.label}}
     </a>
 
 </nav>
 <mat-tab-nav-panel #tabPanel></mat-tab-nav-panel>
 <router-outlet></router-outlet>
-<!-- {{activeLink | json}} -->

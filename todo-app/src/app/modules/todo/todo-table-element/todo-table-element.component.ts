@@ -4,21 +4,21 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
 import { filter, map, mapTo, tap } from 'rxjs';
 import { ToDoTask } from '../models/todoTask.interface';
-import { dropListData } from '../models/dropListData.interface';
+import { dropList } from '../models/dropList.interface';
 import * as uuid from 'uuid';
 
 @Component({
-  selector: 'app-todo',
+  selector: 'app-todo-table-element',
   templateUrl: './todo-table-element.component.html',
   styleUrls: ['./todo-table-element.component.scss'],
 })
 export class TodoTableElemmentComponent implements OnInit {
-  @Input() dropListData!: dropListData;
+  @Input() dropList!: dropList;
   @Input() listName!: string;
   @Output() onItemDroppedEmitted = new EventEmitter();
-  @Output() onTaskAddedEmitted = new EventEmitter<dropListData>();
-  @Output() onTaskEditedEmitted = new EventEmitter<dropListData>();
-  @Output() onTaskDeletedEmitted = new EventEmitter<dropListData>();
+  @Output() onTaskAddedEmitted = new EventEmitter<dropList>();
+  @Output() onTaskEditedEmitted = new EventEmitter<dropList>();
+  @Output() onTaskDeletedEmitted = new EventEmitter<dropList>();
 
   addTaskDialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
     width: '300px',
@@ -49,10 +49,14 @@ export class TodoTableElemmentComponent implements OnInit {
           newTask.id = uuid.v4;
           return newTask;
         }),
-        tap((value) => this.dropListData.tasks.push(value)),
-        tap((value) => this.onTaskAddedEmitted.emit(this.dropListData))
+        tap((value) => this.dropList.tasks.push(value)),
+        tap((value) =>
+          this.onTaskAddedEmitted.emit(
+            JSON.parse(JSON.stringify(this.dropList))
+          )
+        )
       )
-      .subscribe((value) => console.log(value));
+      .subscribe();
   }
 
   handleTaskEdt(formData: ToDoTask) {
@@ -72,27 +76,34 @@ export class TodoTableElemmentComponent implements OnInit {
         filter((value) => !!value),
         map((value) => this.findAndUpdateEditedData(value)),
         tap((value) => console.log(value))
-        // tap((value) => this.onTaskAddedEmitted.emit(this.dropListData))
       )
       .subscribe();
   }
 
   handleTaskDelete(formData: ToDoTask) {
     const taskIndex = this.findTaskInListData(formData);
+    this.dropList.tasks.splice(taskIndex, 1);
+    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+    this.onTaskDeletedEmitted.emit(taskListCopy);
+  }
 
-    this.dropListData.tasks.splice(taskIndex, 1);
-    this.onTaskDeletedEmitted.emit(this.dropListData);
+  handleTaskFinished(formData: ToDoTask) {
+    console.log(formData);
+    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+
+    this.onTaskEditedEmitted.emit(taskListCopy);
   }
 
   private findAndUpdateEditedData(formData: ToDoTask) {
     const taskIndex = this.findTaskInListData(formData);
+    this.dropList.tasks[taskIndex] = formData;
+    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
 
-    this.dropListData.tasks[taskIndex] = formData;
-    this.onTaskEditedEmitted.emit(this.dropListData);
+    this.onTaskEditedEmitted.emit(taskListCopy);
   }
 
   private findTaskInListData(formData: ToDoTask) {
-    const taskIndex = this.dropListData.tasks.findIndex(
+    const taskIndex = this.dropList.tasks.findIndex(
       (task) => task.id === formData.id
     );
     return taskIndex;

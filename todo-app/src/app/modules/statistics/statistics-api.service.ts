@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { taskMapping } from './models/taskListMapping.interface';
-import { dropListData } from '../todo/models/dropListData.interface';
+import { dropList } from '../todo/models/dropList.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class StatisticsApiService {
     return of([]);
   }
 
-  private createMapping(taskListData: dropListData[]) {
+  private createMapping(taskListData: dropList[]) {
     const listDataMapping: taskMapping[] = taskListData.map((taskList) => ({
       name: taskList.name,
       priority: {

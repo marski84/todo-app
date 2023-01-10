@@ -7,13 +7,18 @@ import { ToDoTask } from '../models/todoTask.interface';
   styleUrls: ['./todo-task-view.component.scss'],
 })
 export class TodoTaskViewComponent implements OnInit {
-  @Input() todoTaskData!: ToDoTask;
+  @Input() todoTask!: ToDoTask;
   @Output() editDataEmitted = new EventEmitter<ToDoTask>();
   @Output() taskDeleteEmitted = new EventEmitter<ToDoTask>();
+  @Output() taskFinishedEmitted = new EventEmitter<ToDoTask>();
+
+  isTaskFinished!: boolean;
 
   constructor() {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.isTaskFinished = this.todoTask.isFinished;
+  }
 
   handleTaskEdit(formData: ToDoTask) {
     this.editDataEmitted.emit(formData);
@@ -21,5 +26,12 @@ export class TodoTaskViewComponent implements OnInit {
 
   handleTaskDelete(formData: ToDoTask) {
     this.taskDeleteEmitted.emit(formData);
+  }
+
+  handleTaskFinished(formData: ToDoTask) {
+    this.isTaskFinished = true;
+    this.todoTask.isFinished = true;
+
+    this.taskFinishedEmitted.emit(formData);
   }
 }

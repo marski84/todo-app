@@ -3,20 +3,21 @@
 
     <div
         cdkDropList
-        [cdkDropListData]="dropListData.tasks"
+        [cdkDropListData]="dropList.tasks"
         class="list"
         (cdkDropListDropped)="onItemDropped($event)"
     >
         <div
             class="list-box"
-            *ngFor="let task of dropListData.tasks"
+            *ngFor="let task of dropList.tasks"
             cdkDrag
         >
 
             <app-todo-task-view
-                [todoTaskData]="task"
+                [todoTask]="task"
                 (editDataEmitted)="handleTaskEdt($event)"
                 (taskDeleteEmitted)="handleTaskDelete($event)"
+                (taskFinishedEmitted)="handleTaskFinished($event)"
             ></app-todo-task-view>
 
         </div>

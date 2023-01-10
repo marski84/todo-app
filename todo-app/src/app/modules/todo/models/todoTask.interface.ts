@@ -4,4 +4,5 @@ export interface ToDoTask {
   title: string;
   description: string;
   priority: taskPriority;
+  isFinished: boolean;
 }

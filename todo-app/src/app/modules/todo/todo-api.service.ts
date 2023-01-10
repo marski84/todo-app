@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { dropListData } from './models/dropListData.interface';
+import { dropList } from './models/dropList.interface';
 import { of } from 'rxjs';
 
 @Injectable({
@@ -16,7 +16,7 @@ export class TodoApiService {
     return of([]);
   }
 
-  saveTaskLists(taskLists: dropListData[]) {
+  saveTaskLists(taskLists: dropList[]) {
     console.log(taskLists);
     const dataToSave = JSON.stringify(taskLists);
     window.localStorage.setItem('taskLists', dataToSave);

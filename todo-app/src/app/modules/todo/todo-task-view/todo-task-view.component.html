@@ -1,34 +1,32 @@
-<mat-card>
+<mat-card [ngStyle]="isTaskFinished ? {'text-decoration': 'line-through'} : {'text-decoration': 'none'} ">
     <mat-card-header>
-        <mat-card-title>{{todoTaskData.title}}</mat-card-title>
+        <mat-card-title>{{todoTask.title}}</mat-card-title>
     </mat-card-header>
     <mat-card-content>
         <div>
-            Task description: {{todoTaskData.description}}
+            Task description: {{todoTask.description}}
         </div>
-        <div>
-            Task priority: {{todoTaskData.priority}}
-        </div>
+        <div>Task priority: {{todoTask.priority}}</div>
     </mat-card-content>
 
     <mat-card-actions>
         <button
             mat-raised-button
-            (click)="handleTaskEdit(todoTaskData)"
+            (click)="handleTaskEdit(todoTask)"
         >
             Edit
         </button>
 
         <button
             mat-raised-button
-            (click)="handleTaskDelete(todoTaskData)"
+            (click)="handleTaskDelete(todoTask)"
         >
             Delete
         </button>
 
         <button
             mat-raised-button
-            (click)="handleTaskEdit(todoTaskData)"
+            (click)="handleTaskFinished(todoTask)"
         >
             Finished
         </button>

@@ -4,9 +4,9 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
-import { dropListData } from '../models/dropListData.interface';
 import { TodoApiService } from '../todo-api.service';
 import { tap } from 'rxjs';
+import { dropList } from '../models/dropList.interface';
 
 @Component({
   selector: 'app-todo-table',
@@ -14,7 +14,7 @@ import { tap } from 'rxjs';
   styleUrls: ['./todo-table-list.component.scss'],
 })
 export class TodoTableListComponent implements OnInit {
-  taksLists: dropListData[] = [];
+  taksLists: dropList[] = [];
   constructor(private todoService: TodoApiService) {}
 
   ngOnInit(): void {
@@ -45,7 +45,7 @@ export class TodoTableListComponent implements OnInit {
     this.saveTaskLists();
   }
 
-  handleTaskListModification(data: dropListData) {
+  handleTaskListModification(data: dropList) {
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );
@@ -56,8 +56,7 @@ export class TodoTableListComponent implements OnInit {
   }
 
   private saveTaskLists() {
-    // dodać sub'a
-    this.todoService.saveTaskLists(this.taksLists);
+    this.todoService.saveTaskLists(this.taksLists).subscribe();
   }
 
   addColumn() {
