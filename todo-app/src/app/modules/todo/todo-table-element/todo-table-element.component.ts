@@ -46,7 +46,7 @@ export class TodoTableElemmentComponent implements OnInit {
         tap((value) => console.log(value)),
         map((value) => {
           const newTask = value;
-          newTask.id = uuid.v4;
+          newTask.id = uuid.v4();
           return newTask;
         }),
         tap((value) => this.dropList.tasks.push(value)),

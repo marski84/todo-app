@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 import { TodoApiService } from '../todo-api.service';
 import { tap } from 'rxjs';
 import { dropList } from '../models/dropList.interface';
+import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import * as uuid from 'uuid';
 
 @Component({
   selector: 'app-todo-table',
@@ -15,13 +17,20 @@ import { dropList } from '../models/dropList.interface';
 })
 export class TodoTableListComponent implements OnInit {
   taksLists: dropList[] = [];
-  constructor(private todoService: TodoApiService) {}
+  columnName: FormControl = new FormControl('', Validators.required);
+  columnNameInputEnabled: boolean = false;
+
+  get columnNameCtrl() {
+    return this.columnName as FormControl;
+  }
+
+  constructor(private todoService: TodoApiService, private fb: FormBuilder) {}
 
   ngOnInit(): void {
     // window.localStorage.setItem('taskLists', JSON.stringify(this.taksLists));
     this.todoService
       .getTaskLists()
-      .pipe(tap((taskLists) => (this.taksLists = taskLists)))
+      .pipe(tap((taskLists: dropList[]) => (this.taksLists = taskLists)))
       .subscribe();
   }
 
@@ -56,11 +65,30 @@ export class TodoTableListComponent implements OnInit {
   }
 
   private saveTaskLists() {
-    this.todoService.saveTaskLists(this.taksLists).subscribe();
+    const taskListsCopy = [...this.taksLists];
+    this.todoService.saveTaskLists(taskListsCopy).subscribe();
   }
 
   addColumn() {
-    // const maxId = this.lists.sort((a, b) => b.listId - a.listId)[0].id;
-    // console.log(maxId);
+    console.log(this.columnNameCtrl.value);
+    this.columnNameInputEnabled = !this.columnNameInputEnabled;
+
+    if (this.columnNameCtrl.value) {
+      const id = uuid.v4();
+      const newTaskList: dropList = {
+        listId: String(id),
+        name: this.columnNameCtrl.value,
+        tasks: [],
+      };
+
+      this.taksLists.push(newTaskList);
+      this.saveTaskLists();
+      this.columnNameCtrl.reset();
+    }
+  }
+
+  handleShowCloseButton() {
+    this.columnNameInputEnabled = !this.columnNameInputEnabled;
+    this.columnNameCtrl.reset();
   }
 }
