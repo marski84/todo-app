@@ -9,6 +9,7 @@ import { tap } from 'rxjs';
 import { dropList } from '../models/dropList.interface';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as uuid from 'uuid';
+import { LoggerService } from 'src/app/logger.service';
 
 @Component({
   selector: 'app-todo-table',
@@ -24,7 +25,11 @@ export class TodoTableListComponent implements OnInit {
     return this.columnName as FormControl;
   }
 
-  constructor(private todoService: TodoApiService, private fb: FormBuilder) {}
+  constructor(
+    private todoService: TodoApiService,
+    private fb: FormBuilder,
+    private logger: LoggerService
+  ) {}
 
   ngOnInit(): void {
     // window.localStorage.setItem('taskLists', JSON.stringify(this.taksLists));
@@ -32,6 +37,8 @@ export class TodoTableListComponent implements OnInit {
       .getTaskLists()
       .pipe(tap((taskLists: dropList[]) => (this.taksLists = taskLists)))
       .subscribe();
+
+    this.logger.logTasks();
   }
 
   drop(event: CdkDragDrop<any>) {

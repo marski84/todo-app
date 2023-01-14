@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatisticsApiService } from '../statistics-api.service';
+import { LoggerService } from 'src/app/logger.service';
 
 @Component({
   selector: 'app-statistics-container',
@@ -8,7 +9,12 @@ import { StatisticsApiService } from '../statistics-api.service';
 })
 export class StatisticsContainerComponent implements OnInit {
   taskListDataObservable$ = this.statisticsApiService.getTaskList();
-  constructor(private statisticsApiService: StatisticsApiService) {}
+  constructor(
+    private statisticsApiService: StatisticsApiService,
+    private logger: LoggerService
+  ) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    this.logger.logTasks();
+  }
 }

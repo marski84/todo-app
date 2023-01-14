@@ -9,6 +9,7 @@ import { TodoTaskFormComponent } from './todo-task-form/todo-task-form.component
 import { ReactiveFormsModule } from '@angular/forms';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TodoTaskViewComponent } from './todo-task-view/todo-task-view.component';
+import { LoggerService } from 'src/app/logger.service';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,15 @@ import { TodoTaskViewComponent } from './todo-task-view/todo-task-view.component
     TodoRoutingModule,
     MaterialModule,
     ReactiveFormsModule,
+  ],
+  providers: [
+    {
+      provide: LoggerService,
+    },
+    {
+      provide: 'logger-token',
+      useValue: 'to-do-module-logger',
+    },
   ],
 })
 export class TodoModule {}
