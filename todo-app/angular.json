@@ -85,7 +85,7 @@
               "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
-              "namedChunks": true,
+              "namedChunks": true
             }
           },
           "defaultConfiguration": "production"
@@ -103,7 +103,7 @@
               "browserTarget": "todo-app:build:beta"
             }
           },
-          "defaultConfiguration": "development"
+          "defaultConfiguration": "development" 
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
