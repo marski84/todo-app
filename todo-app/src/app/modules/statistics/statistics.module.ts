@@ -1,14 +1,14 @@
 import { NgModule } from '@angular/core';
 import { StatisticsRoutingModule } from './statistics-routing.module';
 import { StatisticsContainerComponent } from './statistics-container/statistics-container.component';
-import { MaterialModule } from '../material/material.module';
+import { MaterialModule } from '../shared/material/material.module';
 import { StatisticsViewComponent } from './statistics-view/statistics-view.component';
 import { LoggerService } from 'src/app/logger.service';
-import { SharedModule } from '../common/shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [StatisticsContainerComponent, StatisticsViewComponent],
-  imports: [SharedModule, StatisticsRoutingModule, MaterialModule],
+  imports: [SharedModule, StatisticsRoutingModule],
   providers: [
     {
       provide: LoggerService,

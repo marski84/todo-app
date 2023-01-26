@@ -6,9 +6,11 @@ import {
   Validators,
 } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import { ToDoTask } from '../models/todoTask.interface';
-import { taskPriority } from '../models/taskPriority.enum';
+import { ToDoTask } from '../../shared/models/todoTask.interface';
+import { taskPriority } from '../../shared/models/taskPriority.enum';
 
+// TODO: wydzielić logikę formularza od logiki popupu
+// tzn rozbić na 2 komponenty -> form nie powinien wiedzieć gdzie jest osadzony
 @Component({
   selector: 'todo-task-form',
   templateUrl: './todo-task-form.component.html',
@@ -36,14 +38,13 @@ export class TodoTaskFormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private dialogRef: MatDialogRef<TodoTaskFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: ToDoTask
+    @Inject(MAT_DIALOG_DATA) public task: ToDoTask
   ) {}
 
   ngOnInit(): void {
-    console.log(this.data);
-
-    if (this.data !== null) {
-      this.initForm(this.data);
+    console.log(this.task);
+    if (this.task !== null) {
+      this.initForm(this.task);
       return;
     }
     this.initForm();
@@ -58,10 +59,12 @@ export class TodoTaskFormComponent implements OnInit {
     });
   }
 
+  // TODO: nie przekazuj wartości formualrza do metody bo ją juz znasz :)
+  // TODO: walidacja formularza
   handleAddTask(data: ToDoTask) {
-    if (this.data) {
+    if (this.task) {
       const editedData = data;
-      editedData.id = this.data.id;
+      editedData.id = this.task.id;
       this.dialogRef.close(editedData);
     }
     this.dialogRef.close(data);

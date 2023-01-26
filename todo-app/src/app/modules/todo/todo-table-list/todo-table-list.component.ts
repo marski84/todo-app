@@ -6,10 +6,10 @@ import {
 import { Component, OnInit } from '@angular/core';
 import { TodoApiService } from '../todo-api.service';
 import { tap } from 'rxjs';
-import { dropList } from '../models/dropList.interface';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as uuid from 'uuid';
 import { LoggerService } from 'src/app/logger.service';
+import { list } from '../../shared/models/list.interface';
 
 @Component({
   selector: 'app-todo-table',
@@ -17,7 +17,7 @@ import { LoggerService } from 'src/app/logger.service';
   styleUrls: ['./todo-table-list.component.scss'],
 })
 export class TodoTableListComponent implements OnInit {
-  taksLists: dropList[] = [];
+  taksLists: list[] = [];
   columnName: FormControl = new FormControl('', Validators.required);
   columnNameInputEnabled: boolean = false;
 
@@ -35,12 +35,13 @@ export class TodoTableListComponent implements OnInit {
     // window.localStorage.setItem('taskLists', JSON.stringify(this.taksLists));
     this.todoService
       .getTaskLists()
-      .pipe(tap((taskLists: dropList[]) => (this.taksLists = taskLists)))
+      .pipe(tap((taskLists: list[]) => (this.taksLists = taskLists)))
       .subscribe();
 
     this.logger.logTasks();
   }
 
+  // TODO: wrzuc do TodoTableElemmentComponent
   drop(event: CdkDragDrop<any>) {
     console.log(event);
 
@@ -61,14 +62,16 @@ export class TodoTableListComponent implements OnInit {
     this.saveTaskLists();
   }
 
-  handleTaskListModification(data: dropList) {
+  //handleTaskListChange
+  handleTaskListChange(data: list) {
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );
     if (listIndex !== -1) {
-      this.taksLists[listIndex] = data;
-      this.saveTaskLists();
+      return;
     }
+    this.taksLists[listIndex] = data;
+    this.saveTaskLists();
   }
 
   private saveTaskLists() {
@@ -82,7 +85,7 @@ export class TodoTableListComponent implements OnInit {
 
     if (this.columnNameCtrl.value) {
       const id = uuid.v4();
-      const newTaskList: dropList = {
+      const newTaskList: list = {
         listId: String(id),
         name: this.columnNameCtrl.value,
         tasks: [],

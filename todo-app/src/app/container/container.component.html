@@ -6,8 +6,8 @@
     <a
         mat-tab-link
         *ngFor="let link of navLinks"
-        (click)="activeLink = link"
-        [active]="activeLink == link"
+        (click)="handleLinkActive(link)"
+        [active]="link.active"
         [routerLink]="link.location"
         [routerLinkActive]="'tab-active'"
     >

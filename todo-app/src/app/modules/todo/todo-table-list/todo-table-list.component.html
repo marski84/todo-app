@@ -9,11 +9,8 @@
     >
 
         <app-todo-table-element
-            [listName]="list.name"
             [dropList]="list"
-            (onTaskAddedEmitted)="handleTaskListModification($event)"
-            (onTaskEditedEmitted)="handleTaskListModification($event)"
-            (onTaskDeletedEmitted)="handleTaskListModification($event)"
+            (onTaskChangeEmitted)="handleTaskListChange($event)"
             (onItemDroppedEmitted)="drop($event)"
         ></app-todo-table-element>
     </div>

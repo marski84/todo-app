@@ -1,5 +1,13 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ToDoTask } from '../models/todoTask.interface';
+import {
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { ToDoTask } from '../../shared/models/todoTask.interface';
+import { PopupComponent } from '../popup/popup.component';
 
 @Component({
   selector: 'app-todo-task-view',
@@ -11,17 +19,15 @@ export class TodoTaskViewComponent implements OnInit {
   @Output() editDataEmitted = new EventEmitter<ToDoTask>();
   @Output() taskDeleteEmitted = new EventEmitter<ToDoTask>();
   @Output() taskFinishedEmitted = new EventEmitter<ToDoTask>();
-
-  isTaskFinished!: boolean;
+  @ViewChild('popup') popup!: PopupComponent;
 
   constructor() {}
 
-  ngOnInit(): void {
-    this.isTaskFinished = this.todoTask.isFinished;
-  }
+  ngOnInit(): void {}
 
   handleTaskEdit(formData: ToDoTask) {
-    this.editDataEmitted.emit(formData);
+    // this.editDataEmitted.emit(formData);
+    console.log(this.popup.handleOpenDialog(formData));
   }
 
   handleTaskDelete(formData: ToDoTask) {
@@ -29,7 +35,6 @@ export class TodoTaskViewComponent implements OnInit {
   }
 
   handleTaskFinished(formData: ToDoTask) {
-    this.isTaskFinished = true;
     this.todoTask.isFinished = true;
 
     this.taskFinishedEmitted.emit(formData);

@@ -1,4 +1,4 @@
-<mat-card [ngStyle]="isTaskFinished ? {'text-decoration': 'line-through'} : {'text-decoration': 'none'} ">
+<mat-card [ngStyle]="todoTask.isFinished ? {'text-decoration': 'line-through'} : {'text-decoration': 'none'} ">
     <mat-card-header>
         <mat-card-title>{{todoTask.title}}</mat-card-title>
     </mat-card-header>
@@ -32,3 +32,5 @@
         </button>
     </mat-card-actions>
 </mat-card>
+
+<app-popup #popup></app-popup>

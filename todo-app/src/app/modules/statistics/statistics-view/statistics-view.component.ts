@@ -1,6 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { dropList } from '../models/dropList.interface';
-import { ToDoTask } from '../models/todoTask.interface';
 import { taskMapping } from '../models/taskListMapping.interface';
 
 @Component({

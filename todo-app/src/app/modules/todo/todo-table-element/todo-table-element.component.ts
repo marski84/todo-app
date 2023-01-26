@@ -2,10 +2,10 @@ import { CdkDragDrop } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
-import { filter, map, mapTo, tap } from 'rxjs';
-import { ToDoTask } from '../models/todoTask.interface';
-import { dropList } from '../models/dropList.interface';
+import { filter, map, tap } from 'rxjs';
+import { ToDoTask } from '../../shared/models/todoTask.interface';
 import * as uuid from 'uuid';
+import { list } from '../../shared/models/list.interface';
 
 @Component({
   selector: 'app-todo-table-element',
@@ -13,19 +13,13 @@ import * as uuid from 'uuid';
   styleUrls: ['./todo-table-element.component.scss'],
 })
 export class TodoTableElemmentComponent implements OnInit {
-  @Input() dropList!: dropList;
-  @Input() listName!: string;
-  @Output() onItemDroppedEmitted = new EventEmitter();
-  @Output() onTaskAddedEmitted = new EventEmitter<dropList>();
-  @Output() onTaskEditedEmitted = new EventEmitter<dropList>();
-  @Output() onTaskDeletedEmitted = new EventEmitter<dropList>();
+  @Input() dropList!: list;
 
-  addTaskDialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
-    width: '300px',
-    height: '300px',
-  };
+  @Output() onItemDroppedEmitted = new EventEmitter<CdkDragDrop<any>>();
+  // uporścić do jednego emitera - ponieważ ten komponent sam ogarnia to w jakis sposób się zmienia aparent dostaje tylko gotową wersje po zmianach
+  @Output() onTaskChangeEmitted = new EventEmitter<list>();
 
-  constructor(private addTaskDialog: MatDialog) {}
+  constructor(private matDialog: MatDialog) {}
 
   ngOnInit(): void {}
 
@@ -34,9 +28,13 @@ export class TodoTableElemmentComponent implements OnInit {
   }
 
   handleAddNewTask() {
-    const dialogRef = this.addTaskDialog.open(
+    const dialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
+      width: '300px',
+      height: '300px',
+    };
+    const dialogRef = this.matDialog.open(
       TodoTaskFormComponent,
-      this.addTaskDialogSettings
+      dialogSettings
     );
 
     dialogRef
@@ -45,13 +43,12 @@ export class TodoTableElemmentComponent implements OnInit {
         filter((value) => !!value),
         tap((value) => console.log(value)),
         map((value) => {
-          const newTask = value;
-          newTask.id = uuid.v4();
-          return newTask;
+          value.id = uuid.v4();
+          return value;
         }),
         tap((value) => this.dropList.tasks.push(value)),
         tap((value) =>
-          this.onTaskAddedEmitted.emit(
+          this.onTaskChangeEmitted.emit(
             JSON.parse(JSON.stringify(this.dropList))
           )
         )
@@ -59,6 +56,7 @@ export class TodoTableElemmentComponent implements OnInit {
       .subscribe();
   }
 
+  // przerzucił bym na poziom komponentu TodoTaskViewComponent
   handleTaskEdt(formData: ToDoTask) {
     const editTaskDialogSettings: MatDialogConfig<any> = {
       width: '300px',
@@ -66,10 +64,11 @@ export class TodoTableElemmentComponent implements OnInit {
       data: formData,
     };
 
-    const dialogRef = this.addTaskDialog.open(
+    const dialogRef = this.matDialog.open(
       TodoTaskFormComponent,
       editTaskDialogSettings
     );
+
     dialogRef
       .afterClosed()
       .pipe(
@@ -81,28 +80,28 @@ export class TodoTableElemmentComponent implements OnInit {
   }
 
   handleTaskDelete(formData: ToDoTask) {
-    const taskIndex = this.findTaskInListData(formData);
+    const taskIndex = this.findTaskIndexInList(formData);
     this.dropList.tasks.splice(taskIndex, 1);
+
     const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
-    this.onTaskDeletedEmitted.emit(taskListCopy);
+    this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
   handleTaskFinished(formData: ToDoTask) {
-    console.log(formData);
     const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
-
-    this.onTaskEditedEmitted.emit(taskListCopy);
+    this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
-  private findAndUpdateEditedData(formData: ToDoTask) {
-    const taskIndex = this.findTaskInListData(formData);
-    this.dropList.tasks[taskIndex] = formData;
-    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+  private findAndUpdateEditedData(task: ToDoTask) {
+    const taskIndex = this.findTaskIndexInList(task);
+    this.dropList.tasks[taskIndex] = task;
 
-    this.onTaskEditedEmitted.emit(taskListCopy);
+    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+    this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
-  private findTaskInListData(formData: ToDoTask) {
+  // nazwa sugeruje że zwracasz obiekt
+  private findTaskIndexInList(formData: ToDoTask) {
     const taskIndex = this.dropList.tasks.findIndex(
       (task) => task.id === formData.id
     );
