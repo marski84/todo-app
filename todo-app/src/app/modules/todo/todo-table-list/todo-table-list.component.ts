@@ -62,15 +62,20 @@ export class TodoTableListComponent implements OnInit {
     this.saveTaskLists();
   }
 
-  //handleTaskListChange
   handleTaskListChange(data: list) {
+    console.log(data);
+
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );
-    if (listIndex !== -1) {
+
+    console.log(listIndex);
+
+    if (listIndex === -1) {
       return;
     }
     this.taksLists[listIndex] = data;
+
     this.saveTaskLists();
   }
 

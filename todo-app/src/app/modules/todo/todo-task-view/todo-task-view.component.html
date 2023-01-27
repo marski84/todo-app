@@ -12,7 +12,7 @@
     <mat-card-actions>
         <button
             mat-raised-button
-            (click)="handleTaskEdit(todoTask)"
+            (click)="handlePopupOpen()"
         >
             Edit
         </button>
@@ -33,4 +33,7 @@
     </mat-card-actions>
 </mat-card>
 
-<app-popup #popup></app-popup>
+<app-popup
+    #popup
+    (taskEditEmitted)="handleTaskEdit($event)"
+></app-popup>

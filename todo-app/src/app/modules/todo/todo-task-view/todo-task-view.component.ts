@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
 import { PopupComponent } from '../popup/popup.component';
+import { list } from '../../shared/models/list.interface';
 
 @Component({
   selector: 'app-todo-task-view',
@@ -25,9 +26,17 @@ export class TodoTaskViewComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  handleTaskEdit(formData: ToDoTask) {
-    // this.editDataEmitted.emit(formData);
-    console.log(this.popup.handleOpenDialog(formData));
+  handleTaskEdit(editedTask: ToDoTask) {
+    this.editDataEmitted.emit(editedTask);
+  }
+
+  handlePopupOpen() {
+    this.popup.handleOpenEditDialog(this.todoTask);
+  }
+
+  handle(event: any) {
+    console.log(event);
+    this.editDataEmitted.emit(event);
   }
 
   handleTaskDelete(formData: ToDoTask) {
