@@ -62,6 +62,7 @@ export class TodoTableListComponent implements OnInit {
     this.saveTaskLists();
   }
 
+  //handleTaskListChange
   handleTaskListChange(data: list) {
     console.log(data);
 
@@ -75,6 +76,7 @@ export class TodoTableListComponent implements OnInit {
       return;
     }
     this.taksLists[listIndex] = data;
+    console.log(this.taksLists);
 
     this.saveTaskLists();
   }

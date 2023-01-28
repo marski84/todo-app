@@ -15,7 +15,7 @@
 
             <app-todo-task-view
                 [todoTask]="task"
-                (editDataEmitted)="handleTaskEdt($event)"
+                (editDataEmitted)="handleTaskEdit($event)"
                 (taskDeleteEmitted)="handleTaskDelete($event)"
                 (taskFinishedEmitted)="handleTaskFinished($event)"
             ></app-todo-task-view>
@@ -25,9 +25,13 @@
 
     <button
         mat-raised-button
-        (click)="handleAddNewTask()"
+        (click)="popup.handleOpenDialog()"
     >
         Add task
     </button>
 
+    <app-popup
+        #popup
+        (taskEmitted)="handleAddNewTask($event)"
+    ></app-popup>
 </div>

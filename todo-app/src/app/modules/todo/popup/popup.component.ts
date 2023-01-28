@@ -13,10 +13,12 @@ import { list } from '../../shared/models/list.interface';
 export class PopupComponent implements OnInit {
   constructor(private matDialog: MatDialog) {}
 
-  @Output() taskEditEmitted = new EventEmitter<ToDoTask>();
+  @Output() taskEmitted = new EventEmitter<ToDoTask>();
 
-  handleOpenEditDialog(formData: ToDoTask) {
-    const editTaskDialogSettings: MatDialogConfig<any> = {
+  ngOnInit(): void {}
+
+  handleOpenDialog(formData?: ToDoTask) {
+    const dialogSettings: MatDialogConfig<any> = {
       width: '300px',
       height: '300px',
       data: formData,
@@ -24,19 +26,16 @@ export class PopupComponent implements OnInit {
 
     const dialogRef = this.matDialog.open(
       TodoTaskFormComponent,
-      editTaskDialogSettings
+      dialogSettings
     );
 
     dialogRef
       .afterClosed()
       .pipe(
         filter((value) => !!value),
-        // map((value) => this.findAndUpdateEditedData(value)),
         tap((value) => console.log(value)),
-        tap((data: ToDoTask) => this.taskEditEmitted.emit(data))
+        tap((data: ToDoTask) => this.taskEmitted.emit(data))
       )
       .subscribe();
   }
-
-  ngOnInit(): void {}
 }

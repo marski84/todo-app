@@ -20,7 +20,6 @@ export class TodoTaskViewComponent implements OnInit {
   @Output() editDataEmitted = new EventEmitter<ToDoTask>();
   @Output() taskDeleteEmitted = new EventEmitter<ToDoTask>();
   @Output() taskFinishedEmitted = new EventEmitter<ToDoTask>();
-  @ViewChild('popup') popup!: PopupComponent;
 
   constructor() {}
 
@@ -28,10 +27,6 @@ export class TodoTaskViewComponent implements OnInit {
 
   handleTaskEdit(editedTask: ToDoTask) {
     this.editDataEmitted.emit(editedTask);
-  }
-
-  handlePopupOpen() {
-    this.popup.handleOpenEditDialog(this.todoTask);
   }
 
   handle(event: any) {

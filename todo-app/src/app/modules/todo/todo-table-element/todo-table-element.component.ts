@@ -27,37 +27,17 @@ export class TodoTableElemmentComponent implements OnInit {
     this.onItemDroppedEmitted.emit(event);
   }
 
-  handleAddNewTask() {
-    const dialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
-      width: '300px',
-      height: '300px',
-    };
-    const dialogRef = this.matDialog.open(
-      TodoTaskFormComponent,
-      dialogSettings
-    );
+  handleAddNewTask(toDoTask: ToDoTask) {
+    console.log(toDoTask);
 
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((value) => !!value),
-        tap((value) => console.log(value)),
-        map((value) => {
-          value.id = uuid.v4();
-          return value;
-        }),
-        tap((value) => this.dropList.tasks.push(value)),
-        tap((value) =>
-          this.onTaskChangeEmitted.emit(
-            JSON.parse(JSON.stringify(this.dropList))
-          )
-        )
-      )
-      .subscribe();
+    if (toDoTask) {
+      toDoTask.id = uuid.v4();
+      this.dropList.tasks.push(toDoTask);
+      this.onTaskChangeEmitted.emit(JSON.parse(JSON.stringify(this.dropList)));
+    }
   }
 
-  // przerzucił bym na poziom komponentu TodoTaskViewComponent
-  handleTaskEdt(formData: ToDoTask) {
+  handleTaskEdit(formData: ToDoTask) {
     this.findAndUpdateEditedData(formData);
   }
 
