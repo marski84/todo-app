@@ -32,7 +32,6 @@ export class TodoTableListComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // window.localStorage.setItem('taskLists', JSON.stringify(this.taksLists));
     this.todoService
       .getTaskLists()
       .pipe(tap((taskLists: list[]) => (this.taksLists = taskLists)))
@@ -42,30 +41,11 @@ export class TodoTableListComponent implements OnInit {
   }
 
   // TODO: wrzuc do TodoTableElemmentComponent
-  drop(event: CdkDragDrop<any>) {
-    console.log(event);
-
-    if (event.previousContainer === event.container) {
-      moveItemInArray(
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    } else {
-      transferArrayItem(
-        event.previousContainer.data,
-        event.container.data,
-        event.previousIndex,
-        event.currentIndex
-      );
-    }
-    this.saveTaskLists();
+  handleListMove(dropList: list) {
+    this.handleTaskListChange(dropList);
   }
 
-  //handleTaskListChange
   handleTaskListChange(data: list) {
-    console.log(data);
-
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );

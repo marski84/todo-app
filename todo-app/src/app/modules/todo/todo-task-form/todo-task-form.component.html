@@ -42,6 +42,8 @@
                 mat-button
                 mat-dialog-close
                 cdkFocusInitial
+                [disabled]="!todoForm.valid"
+                [ngClass]="!todoForm.valid ? 'disabled-button' : '' "
             >
                 Confirm
             </button>

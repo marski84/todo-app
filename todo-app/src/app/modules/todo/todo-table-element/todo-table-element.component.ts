@@ -1,4 +1,8 @@
-import { CdkDragDrop } from '@angular/cdk/drag-drop';
+import {
+  CdkDragDrop,
+  moveItemInArray,
+  transferArrayItem,
+} from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
@@ -15,7 +19,7 @@ import { list } from '../../shared/models/list.interface';
 export class TodoTableElemmentComponent implements OnInit {
   @Input() dropList!: list;
 
-  @Output() onItemDroppedEmitted = new EventEmitter<CdkDragDrop<any>>();
+  @Output() onItemDroppedEmitted = new EventEmitter<list>();
   // uporścić do jednego emitera - ponieważ ten komponent sam ogarnia to w jakis sposób się zmienia aparent dostaje tylko gotową wersje po zmianach
   @Output() onTaskChangeEmitted = new EventEmitter<list>();
 
@@ -24,7 +28,24 @@ export class TodoTableElemmentComponent implements OnInit {
   ngOnInit(): void {}
 
   onItemDropped(event: CdkDragDrop<any>) {
-    this.onItemDroppedEmitted.emit(event);
+    if (event.previousContainer === event.container) {
+      moveItemInArray(
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    } else {
+      transferArrayItem(
+        event.previousContainer.data,
+        event.container.data,
+        event.previousIndex,
+        event.currentIndex
+      );
+    }
+
+    const taskListCopy = this.prepareListCopy(this.dropList);
+
+    this.onItemDroppedEmitted.emit(taskListCopy);
   }
 
   handleAddNewTask(toDoTask: ToDoTask) {
@@ -33,7 +54,9 @@ export class TodoTableElemmentComponent implements OnInit {
     if (toDoTask) {
       toDoTask.id = uuid.v4();
       this.dropList.tasks.push(toDoTask);
-      this.onTaskChangeEmitted.emit(JSON.parse(JSON.stringify(this.dropList)));
+      const taskListCopy = this.prepareListCopy(this.dropList);
+
+      this.onTaskChangeEmitted.emit(taskListCopy);
     }
   }
 
@@ -45,12 +68,12 @@ export class TodoTableElemmentComponent implements OnInit {
     const taskIndex = this.findTaskIndexInList(formData);
     this.dropList.tasks.splice(taskIndex, 1);
 
-    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+    const taskListCopy = this.prepareListCopy(this.dropList);
     this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
   handleTaskFinished(formData: ToDoTask) {
-    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+    const taskListCopy = this.prepareListCopy(this.dropList);
     this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
@@ -58,7 +81,7 @@ export class TodoTableElemmentComponent implements OnInit {
     const taskIndex = this.findTaskIndexInList(task);
     this.dropList.tasks[taskIndex] = task;
 
-    const taskListCopy = JSON.parse(JSON.stringify(this.dropList));
+    const taskListCopy = this.prepareListCopy(this.dropList);
     this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
@@ -68,5 +91,10 @@ export class TodoTableElemmentComponent implements OnInit {
       (task) => task.id === formData.id
     );
     return taskIndex;
+  }
+
+  private prepareListCopy(list: list) {
+    const taskListCopy = JSON.parse(JSON.stringify(list));
+    return taskListCopy;
   }
 }

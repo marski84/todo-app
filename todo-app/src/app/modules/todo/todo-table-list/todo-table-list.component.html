@@ -11,7 +11,7 @@
         <app-todo-table-element
             [dropList]="list"
             (onTaskChangeEmitted)="handleTaskListChange($event)"
-            (onItemDroppedEmitted)="drop($event)"
+            (onItemDroppedEmitted)="handleListMove($event)"
         ></app-todo-table-element>
     </div>
 

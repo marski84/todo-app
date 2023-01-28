@@ -3,7 +3,6 @@ import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
 import { filter, map, tap } from 'rxjs';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
-import { list } from '../../shared/models/list.interface';
 
 @Component({
   selector: 'app-popup',
