@@ -7,7 +7,6 @@ import {
   ViewChild,
 } from '@angular/core';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
-import { PopupComponent } from '../popup/popup.component';
 import { list } from '../../shared/models/list.interface';
 
 @Component({

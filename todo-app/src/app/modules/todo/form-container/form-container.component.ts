@@ -1,17 +1,19 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
 import { filter, map, tap } from 'rxjs';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
+import { FormHandlerComponent } from './form-handler/form-handler.component';
 
 @Component({
-  selector: 'app-popup',
-  templateUrl: './popup.component.html',
-  styleUrls: ['./popup.component.scss'],
+  selector: 'app-form-container',
+  templateUrl: './form-container.component.html',
+  styleUrls: ['./form-container.component.scss'],
 })
-export class PopupComponent implements OnInit {
+export class FormContainerComponent implements OnInit {
   constructor(private matDialog: MatDialog) {}
 
+  @Input() task?: ToDoTask;
   @Output() taskEmitted = new EventEmitter<ToDoTask>();
 
   ngOnInit(): void {}
@@ -20,13 +22,10 @@ export class PopupComponent implements OnInit {
     const dialogSettings: MatDialogConfig<any> = {
       width: '300px',
       height: '300px',
-      data: formData,
+      data: this.task,
     };
 
-    const dialogRef = this.matDialog.open(
-      TodoTaskFormComponent,
-      dialogSettings
-    );
+    const dialogRef = this.matDialog.open(FormHandlerComponent, dialogSettings);
 
     dialogRef
       .afterClosed()

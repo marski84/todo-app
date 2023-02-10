@@ -25,13 +25,13 @@
 
     <button
         mat-raised-button
-        (click)="popup.handleOpenDialog()"
+        (click)="formContainer.handleOpenDialog()"
     >
         Add task
     </button>
 
-    <app-popup
-        #popup
+    <app-form-container
+        #formContainer
         (taskEmitted)="handleAddNewTask($event)"
-    ></app-popup>
+    ></app-form-container>
 </div>

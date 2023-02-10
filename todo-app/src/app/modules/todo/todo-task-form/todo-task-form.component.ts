@@ -1,4 +1,11 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Inject,
+  Input,
+  OnInit,
+  Output,
+} from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -12,11 +19,14 @@ import { taskPriority } from '../../shared/models/taskPriority.enum';
 // TODO: wydzielić logikę formularza od logiki popupu
 // tzn rozbić na 2 komponenty -> form nie powinien wiedzieć gdzie jest osadzony
 @Component({
-  selector: 'todo-task-form',
+  selector: 'app-todo-task-form',
   templateUrl: './todo-task-form.component.html',
   styleUrls: ['./todo-task-form.component.scss'],
 })
 export class TodoTaskFormComponent implements OnInit {
+  @Input() task?: ToDoTask;
+  @Output() formDataEmitted: EventEmitter<ToDoTask> =
+    new EventEmitter<ToDoTask>();
   todoForm!: FormGroup;
 
   priorityLevels: taskPriority[] = [
@@ -36,9 +46,7 @@ export class TodoTaskFormComponent implements OnInit {
   }
 
   constructor(
-    private fb: FormBuilder,
-    private dialogRef: MatDialogRef<TodoTaskFormComponent>,
-    @Inject(MAT_DIALOG_DATA) public task: ToDoTask
+    private fb: FormBuilder // private dialogRef: MatDialogRef<TodoTaskFormComponent> // @Inject(MAT_DIALOG_DATA) public task: ToDoTask
   ) {}
 
   ngOnInit(): void {
@@ -62,15 +70,17 @@ export class TodoTaskFormComponent implements OnInit {
   // TODO: nie przekazuj wartości formualrza do metody bo ją juz znasz :)
   // TODO: walidacja formularza
   handleAddTask() {
-    if (this.todoForm.valid) {
-      const editedData = this.todoForm.value;
-      editedData.id = this.task.id;
-      this.dialogRef.close(editedData);
+    if (this.todoForm.invalid) {
+      return;
     }
-    this.dialogRef.close(this.todoForm.value);
+    this.formDataEmitted.emit(this.todoForm.value);
+    const editedData = this.todoForm.value;
+    // editedData.id = this.task.id;
+    // this.dialogRef.close(editedData);
+    // this.dialogRef.close(this.todoForm.value);
   }
 
   handleAddTaskCancel() {
-    this.dialogRef.close();
+    // this.dialogRef.close();
   }
 }

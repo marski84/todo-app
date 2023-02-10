@@ -6,7 +6,8 @@ import { TodoTaskFormComponent } from './todo-task-form/todo-task-form.component
 import { TodoTaskViewComponent } from './todo-task-view/todo-task-view.component';
 import { LoggerService } from 'src/app/logger.service';
 import { SharedModule } from '../shared/shared.module';
-import { PopupComponent } from './popup/popup.component';
+import { FormContainerComponent } from './form-container/form-container.component';
+import { FormHandlerComponent } from './form-container/form-handler/form-handler.component';
 
 @NgModule({
   declarations: [
@@ -14,7 +15,8 @@ import { PopupComponent } from './popup/popup.component';
     TodoTableElemmentComponent,
     TodoTaskFormComponent,
     TodoTaskViewComponent,
-    PopupComponent,
+    FormContainerComponent,
+    FormHandlerComponent,
   ],
   imports: [SharedModule, TodoRoutingModule],
   providers: [
