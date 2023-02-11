@@ -69,18 +69,20 @@ export class TodoTaskFormComponent implements OnInit {
 
   // TODO: nie przekazuj wartości formualrza do metody bo ją juz znasz :)
   // TODO: walidacja formularza
-  handleAddTask() {
+  handleConfirm() {
     if (this.todoForm.invalid) {
       return;
     }
+
+    if (this.task) {
+      const editedData = this.todoForm.value;
+      editedData.id = this.task.id;
+      this.formDataEmitted.emit(this.todoForm.value);
+    }
     this.formDataEmitted.emit(this.todoForm.value);
-    const editedData = this.todoForm.value;
-    // editedData.id = this.task.id;
-    // this.dialogRef.close(editedData);
-    // this.dialogRef.close(this.todoForm.value);
   }
 
-  handleAddTaskCancel() {
-    // this.dialogRef.close();
+  handleCancel() {
+    this.formDataEmitted.emit();
   }
 }

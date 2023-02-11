@@ -1,6 +1,6 @@
 import { ToDoTask } from './todoTask.interface';
 
-export interface list {
+export interface ListOfTask {
   listId: string;
   name: string;
   tasks: ToDoTask[];

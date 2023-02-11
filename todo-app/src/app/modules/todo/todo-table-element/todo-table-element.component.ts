@@ -4,12 +4,9 @@ import {
   transferArrayItem,
 } from '@angular/cdk/drag-drop';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
-import { TodoTaskFormComponent } from '../todo-task-form/todo-task-form.component';
-import { filter, map, tap } from 'rxjs';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
 import * as uuid from 'uuid';
-import { list } from '../../shared/models/list.interface';
+import { ListOfTask } from '../../shared/models/listOfTask.interface';
 
 @Component({
   selector: 'app-todo-table-element',
@@ -17,13 +14,11 @@ import { list } from '../../shared/models/list.interface';
   styleUrls: ['./todo-table-element.component.scss'],
 })
 export class TodoTableElemmentComponent implements OnInit {
-  @Input() dropList!: list;
+  @Input() dropList!: ListOfTask;
 
-  @Output() onItemDroppedEmitted = new EventEmitter<list>();
-  // uporścić do jednego emitera - ponieważ ten komponent sam ogarnia to w jakis sposób się zmienia aparent dostaje tylko gotową wersje po zmianach
-  @Output() onTaskChangeEmitted = new EventEmitter<list>();
+  @Output() onTaskChangeEmitted = new EventEmitter<ListOfTask>();
 
-  constructor(private matDialog: MatDialog) {}
+  constructor() {}
 
   ngOnInit(): void {}
 
@@ -45,12 +40,10 @@ export class TodoTableElemmentComponent implements OnInit {
 
     const taskListCopy = this.prepareListCopy(this.dropList);
 
-    this.onItemDroppedEmitted.emit(taskListCopy);
+    this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
   handleAddNewTask(toDoTask: ToDoTask) {
-    console.log(toDoTask);
-
     if (toDoTask) {
       toDoTask.id = uuid.v4();
       this.dropList.tasks.push(toDoTask);
@@ -85,7 +78,6 @@ export class TodoTableElemmentComponent implements OnInit {
     this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
-  // nazwa sugeruje że zwracasz obiekt
   private findTaskIndexInList(formData: ToDoTask) {
     const taskIndex = this.dropList.tasks.findIndex(
       (task) => task.id === formData.id
@@ -93,7 +85,7 @@ export class TodoTableElemmentComponent implements OnInit {
     return taskIndex;
   }
 
-  private prepareListCopy(list: list) {
+  private prepareListCopy(list: ListOfTask) {
     const taskListCopy = JSON.parse(JSON.stringify(list));
     return taskListCopy;
   }

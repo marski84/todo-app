@@ -1,13 +1,5 @@
-import {
-  Component,
-  EventEmitter,
-  Input,
-  OnInit,
-  Output,
-  ViewChild,
-} from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
-import { list } from '../../shared/models/list.interface';
 
 @Component({
   selector: 'app-todo-task-view',

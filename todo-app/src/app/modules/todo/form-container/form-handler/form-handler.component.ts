@@ -10,14 +10,13 @@ import { TodoTaskFormComponent } from '../../todo-task-form/todo-task-form.compo
 })
 export class FormHandlerComponent implements OnInit {
   constructor(
-    private dialogRef: MatDialogRef<any>,
+    private dialogRef: MatDialogRef<ToDoTask>,
     @Inject(MAT_DIALOG_DATA) public task?: ToDoTask
   ) {}
 
   ngOnInit(): void {}
 
   handleFormDataEmitted(data: ToDoTask) {
-    console.log(data);
     this.dialogRef.close(data);
   }
 }

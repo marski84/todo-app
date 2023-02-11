@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
 import { taskMapping } from './models/taskListMapping.interface';
-import { list } from '../shared/models/list.interface';
+import { ListOfTask } from '../shared/models/listOfTask.interface';
 
 @Injectable({
   providedIn: 'root',
@@ -21,7 +21,7 @@ export class StatisticsApiService {
     return of([]);
   }
 
-  private createMapping(taskListData: list[]) {
+  private createMapping(taskListData: ListOfTask[]) {
     const listDataMapping: taskMapping[] = taskListData.map((taskList) => ({
       name: taskList.name,
       priority: {

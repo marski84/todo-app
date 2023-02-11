@@ -1,15 +1,10 @@
-import {
-  CdkDragDrop,
-  moveItemInArray,
-  transferArrayItem,
-} from '@angular/cdk/drag-drop';
 import { Component, OnInit } from '@angular/core';
 import { TodoApiService } from '../todo-api.service';
 import { tap } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as uuid from 'uuid';
 import { LoggerService } from 'src/app/logger.service';
-import { list } from '../../shared/models/list.interface';
+import { ListOfTask } from '../../shared/models/listOfTask.interface';
 
 @Component({
   selector: 'app-todo-table',
@@ -17,7 +12,7 @@ import { list } from '../../shared/models/list.interface';
   styleUrls: ['./todo-table-list.component.scss'],
 })
 export class TodoTableListComponent implements OnInit {
-  taksLists: list[] = [];
+  taksLists: ListOfTask[] = [];
   columnName: FormControl = new FormControl('', Validators.required);
   columnNameInputEnabled: boolean = false;
 
@@ -34,18 +29,13 @@ export class TodoTableListComponent implements OnInit {
   ngOnInit(): void {
     this.todoService
       .getTaskLists()
-      .pipe(tap((taskLists: list[]) => (this.taksLists = taskLists)))
+      .pipe(tap((taskLists: ListOfTask[]) => (this.taksLists = taskLists)))
       .subscribe();
 
     this.logger.logTasks();
   }
 
-  // TODO: wrzuc do TodoTableElemmentComponent
-  handleListMove(dropList: list) {
-    this.handleTaskListChange(dropList);
-  }
-
-  handleTaskListChange(data: list) {
+  handleTaskListChange(data: ListOfTask) {
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );
@@ -72,7 +62,7 @@ export class TodoTableListComponent implements OnInit {
 
     if (this.columnNameCtrl.value) {
       const id = uuid.v4();
-      const newTaskList: list = {
+      const newTaskList: ListOfTask = {
         listId: String(id),
         name: this.columnNameCtrl.value,
         tasks: [],
