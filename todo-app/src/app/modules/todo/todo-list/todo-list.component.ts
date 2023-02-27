@@ -9,11 +9,11 @@ import * as uuid from 'uuid';
 import { ListOfTask } from '../../shared/models/listOfTask.interface';
 
 @Component({
-  selector: 'app-todo-table-element',
-  templateUrl: './todo-table-element.component.html',
-  styleUrls: ['./todo-table-element.component.scss'],
+  selector: 'app-todo-list',
+  templateUrl: './todo-list.component.html',
+  styleUrls: ['./todo-list.component.scss'],
 })
-export class TodoTableElemmentComponent implements OnInit {
+export class TodoListComponent implements OnInit {
   @Input() dropList!: ListOfTask;
 
   @Output() onTaskChangeEmitted = new EventEmitter<ListOfTask>();
@@ -44,13 +44,18 @@ export class TodoTableElemmentComponent implements OnInit {
   }
 
   handleAddNewTask(toDoTask: ToDoTask) {
-    if (toDoTask) {
-      toDoTask.id = uuid.v4();
-      this.dropList.tasks.push(toDoTask);
-      const taskListCopy = this.prepareListCopy(this.dropList);
-
-      this.onTaskChangeEmitted.emit(taskListCopy);
+    if (!toDoTask) {
+      return;
     }
+    toDoTask.id = uuid.v4();
+    this.dropList.tasks.push(toDoTask);
+    const taskListCopy = this.prepareListCopy(this.dropList);
+
+    this.onTaskChangeEmitted.emit(taskListCopy);
+  }
+
+  openDialog() {
+    // logika otwarcia i nasłuchiwanie
   }
 
   handleTaskEdit(formData: ToDoTask) {

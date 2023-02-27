@@ -1,46 +1,59 @@
-import { Component, OnInit } from '@angular/core';
-import { TodoApiService } from '../todo-api.service';
-import { tap } from 'rxjs';
+import { Component, OnDestroy, OnInit } from '@angular/core';
+import { LocalStorageApiService } from '../local-storage-api.service';
+import { Subject, takeUntil, tap } from 'rxjs';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import * as uuid from 'uuid';
 import { LoggerService } from 'src/app/logger.service';
 import { ListOfTask } from '../../shared/models/listOfTask.interface';
 
+// BOARD
 @Component({
-  selector: 'app-todo-table',
-  templateUrl: './todo-table-list.component.html',
-  styleUrls: ['./todo-table-list.component.scss'],
+  selector: 'app-todo-board',
+  templateUrl: './todo-board.component.html',
+  styleUrls: ['./todo-board.component.scss'],
 })
-export class TodoTableListComponent implements OnInit {
+export class TodoBoardComponent implements OnInit, OnDestroy {
   taksLists: ListOfTask[] = [];
   columnName: FormControl = new FormControl('', Validators.required);
   columnNameInputEnabled: boolean = false;
+  onDestroy$ = new Subject<void>();
 
   get columnNameCtrl() {
     return this.columnName as FormControl;
   }
 
   constructor(
-    private todoService: TodoApiService,
+    private todoService: LocalStorageApiService,
     private fb: FormBuilder,
     private logger: LoggerService
   ) {}
 
   ngOnInit(): void {
-    this.todoService
-      .getTaskLists()
-      .pipe(tap((taskLists: ListOfTask[]) => (this.taksLists = taskLists)))
+    this.todoService.data$
+      .pipe(
+        takeUntil(this.onDestroy$),
+        tap((taskLists: ListOfTask[]) => (this.taksLists = taskLists))
+      )
       .subscribe();
 
+    this.todoService.getData();
+    // .getTaskLists()
+
+    // .pipe(tap((taskLists: ListOfTask[]) => (this.taksLists = taskLists)))
+    // .subscribe();
+
     this.logger.logTasks();
+  }
+
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
   }
 
   handleTaskListChange(data: ListOfTask) {
     const listIndex = this.taksLists.findIndex(
       (taskList) => taskList.listId === data.listId
     );
-
-    console.log(listIndex);
 
     if (listIndex === -1) {
       return;
@@ -53,7 +66,7 @@ export class TodoTableListComponent implements OnInit {
 
   private saveTaskLists() {
     const taskListsCopy = [...this.taksLists];
-    this.todoService.saveTaskLists(taskListsCopy).subscribe();
+    this.todoService.saveData(taskListsCopy).subscribe();
   }
 
   addColumn() {

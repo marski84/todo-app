@@ -14,3 +14,14 @@ export class LoggerService {
     );
   }
 }
+
+// 1. serwis który zapisuje => LocalStorageService
+// 2. token abstrakcyjny loggerService,
+// tworzysz interfejs AbstractStorageService
+// LocalService implementuje AbstractStorageService.
+//
+
+// TODO: new InjectionToken('logger-token')
+// 'a' === 'a'
+// token === token
+// https://www.youtube.com/watch?v=CVH0v3EmCfs

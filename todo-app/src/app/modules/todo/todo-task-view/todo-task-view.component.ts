@@ -20,7 +20,7 @@ export class TodoTaskViewComponent implements OnInit {
     this.editDataEmitted.emit(editedTask);
   }
 
-  handle(event: any) {
+  handle(event: ToDoTask) {
     console.log(event);
     this.editDataEmitted.emit(event);
   }

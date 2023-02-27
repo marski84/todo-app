@@ -8,10 +8,10 @@
         *ngFor="let list of taksLists"
     >
 
-        <app-todo-table-element
+        <app-todo-list
             [dropList]="list"
             (onTaskChangeEmitted)="handleTaskListChange($event)"
-        ></app-todo-table-element>
+        ></app-todo-list>
     </div>
 
     <div class="button-container">
