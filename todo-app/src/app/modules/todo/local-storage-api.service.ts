@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable, of } from 'rxjs';
-import { AbstractApiHandler } from '../custom-api-handler/abstract-api-handler';
+import { AbstractApiHandler } from '../shared/abstract-api-handler';
 
 @Injectable({
   providedIn: 'root',

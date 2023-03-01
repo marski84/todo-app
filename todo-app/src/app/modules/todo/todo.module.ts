@@ -6,10 +6,11 @@ import { LoggerService } from 'src/app/logger.service';
 import { SharedModule } from '../shared/shared.module';
 import { FormContainerComponent } from './form-container/form-container.component';
 import { FormHandlerComponent } from './form-container/form-handler/form-handler.component';
-import { AbstractApiHandler } from '../custom-api-handler/abstract-api-handler';
+import { AbstractApiHandler } from '../shared/abstract-api-handler';
 import { LocalStorageApiService } from './local-storage-api.service';
 import { TodoBoardComponent } from './todo-board/todo-board.component';
 import { TodoListComponent } from './todo-list/todo-list.component';
+import { LOGGER_TOKEN } from '../shared/abstract-logger-token';
 
 @NgModule({
   declarations: [
@@ -30,7 +31,7 @@ import { TodoListComponent } from './todo-list/todo-list.component';
       useClass: LocalStorageApiService,
     },
     {
-      provide: 'logger-token',
+      provide: LOGGER_TOKEN,
       useValue: 'to-do-module-logger',
     },
   ],

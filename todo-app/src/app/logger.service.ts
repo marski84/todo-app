@@ -1,11 +1,12 @@
 import { Injectable, Inject } from '@angular/core';
 import { environment } from '../environments/environment.dev';
+import { LOGGER_TOKEN } from './modules/shared/abstract-logger-token';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoggerService {
-  constructor(@Inject('logger-token') private loggerToken: string) {}
+  constructor(@Inject(LOGGER_TOKEN) private loggerToken: string) {}
 
   logTasks() {
     const taskLists = window.localStorage.getItem('taskLists');

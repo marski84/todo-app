@@ -5,6 +5,7 @@ import { MaterialModule } from '../shared/material/material.module';
 import { StatisticsViewComponent } from './statistics-view/statistics-view.component';
 import { LoggerService } from 'src/app/logger.service';
 import { SharedModule } from '../shared/shared.module';
+import { LOGGER_TOKEN } from '../shared/abstract-logger-token';
 
 @NgModule({
   declarations: [StatisticsContainerComponent, StatisticsViewComponent],
@@ -14,7 +15,7 @@ import { SharedModule } from '../shared/shared.module';
       provide: LoggerService,
     },
     {
-      provide: 'logger-token',
+      provide: LOGGER_TOKEN,
       useValue: 'statistic-module-logger',
     },
   ],
