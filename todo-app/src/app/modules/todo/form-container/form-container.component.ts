@@ -25,7 +25,10 @@ export class FormContainerComponent implements OnInit {
       data: this.task,
     };
 
-    const dialogRef = this.matDialog.open(FormHandlerComponent, dialogSettings);
+    const dialogRef = this.matDialog.open(
+      TodoTaskFormComponent,
+      dialogSettings
+    );
 
     dialogRef
       .afterClosed()

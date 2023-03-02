@@ -1,61 +1,56 @@
 import {
   Component,
   EventEmitter,
-  Inject,
   Input,
+  OnDestroy,
   OnInit,
   Output,
 } from '@angular/core';
-import {
-  MatDialogRef,
-  MAT_DIALOG_DATA,
-  MatDialogConfig,
-  MatDialog,
-} from '@angular/material/dialog';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
 import { ToDoTask } from 'src/app/modules/shared/models/todoTask.interface';
 import { TodoTaskFormComponent } from '../../todo-task-form/todo-task-form.component';
-import { filter, tap } from 'rxjs';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-form-handler',
   templateUrl: './form-handler.component.html',
   styleUrls: ['./form-handler.component.scss'],
 })
-export class FormHandlerComponent implements OnInit {
+export class FormHandlerComponent implements OnInit, OnDestroy {
   @Input() task?: ToDoTask;
-
   @Output() taskEmitted = new EventEmitter<ToDoTask>();
+  private onDestroy$ = new Subject<void>();
 
-  constructor(
-    private matDialog: MatDialog,
-    private dialogRef: MatDialogRef<ToDoTask>,
-    @Inject(MAT_DIALOG_DATA) public toDotask?: ToDoTask
-  ) {}
+  constructor(private matDialog: MatDialog) {}
 
   ngOnInit(): void {
     console.log(this.task);
   }
 
-  handleFormDataEmitted(data: ToDoTask) {
-    this.dialogRef.close(data);
+  ngOnDestroy(): void {
+    this.onDestroy$.next();
+    this.onDestroy$.complete();
+  }
+
+  private handleFormDataEmitted(editedTask: ToDoTask) {
+    this.taskEmitted.emit(editedTask);
   }
 
   handleOpenDialog() {
-    const dialogSettings: MatDialogConfig<any> = {
+    const dialogSettings: MatDialogConfig<TodoTaskFormComponent> = {
       width: '300px',
       height: '300px',
-      data: this.task,
     };
 
-    const dialogRef = this.matDialog.open(FormHandlerComponent, dialogSettings);
+    const dialogRef = this.matDialog.open(
+      TodoTaskFormComponent,
+      dialogSettings
+    );
 
-    dialogRef
-      .afterClosed()
-      .pipe(
-        filter((value) => !!value),
-        tap((value) => console.log(value)),
-        tap((data: ToDoTask) => this.taskEmitted.emit(data))
-      )
-      .subscribe();
+    dialogRef.componentInstance.task = this.task;
+
+    dialogRef.componentInstance.formDataEmitted
+      .pipe(takeUntil(this.onDestroy$))
+      .subscribe((taskData) => this.handleFormDataEmitted(taskData));
   }
 }

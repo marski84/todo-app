@@ -82,7 +82,5 @@ export class TodoTaskFormComponent implements OnInit {
     this.formDataEmitted.emit(this.todoForm.value);
   }
 
-  handleCancel() {
-    this.formDataEmitted.emit();
-  }
+  handleCancel() {}
 }
