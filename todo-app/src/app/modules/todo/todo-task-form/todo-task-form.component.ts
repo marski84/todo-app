@@ -45,9 +45,7 @@ export class TodoTaskFormComponent implements OnInit {
     return this.todoForm.get('priority') as FormControl;
   }
 
-  constructor(
-    private fb: FormBuilder // private dialogRef: MatDialogRef<TodoTaskFormComponent> // @Inject(MAT_DIALOG_DATA) public task: ToDoTask
-  ) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit(): void {
     console.log(this.task);
@@ -67,8 +65,6 @@ export class TodoTaskFormComponent implements OnInit {
     });
   }
 
-  // TODO: nie przekazuj wartości formualrza do metody bo ją juz znasz :)
-  // TODO: walidacja formularza
   handleConfirm() {
     if (this.todoForm.invalid) {
       return;

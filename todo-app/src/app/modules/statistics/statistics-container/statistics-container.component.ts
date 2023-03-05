@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { StatisticsApiService } from '../statistics-api.service';
 import { LoggerService } from 'src/app/logger.service';
-import { AbstractApiHandler } from '../../shared/abstract-api-handler';
 
 @Component({
   selector: 'app-statistics-container',

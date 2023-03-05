@@ -12,7 +12,7 @@
     <mat-card-actions>
         <button
             mat-raised-button
-            (click)="formContainer.handleOpenDialog()"
+            (click)="openEditDialog(todoTask)"
         >
             Edit
         </button>
@@ -38,11 +38,3 @@
     #formContainer
     (taskEmitted)="handleTaskEdit($event)"
 ></app-form-container> -->
-
-<app-form-handler
-    [task]="todoTask"
-    #formContainer
-    (taskEmitted)="handleTaskEdit($event)"
->
-
-</app-form-handler>

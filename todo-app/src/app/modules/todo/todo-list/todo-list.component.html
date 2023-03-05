@@ -25,14 +25,10 @@
 
     <button
         mat-raised-button
-        (click)="formContainer.handleOpenDialog()"
+        (click)="openEditDialog()"
+        
     >
-        <!-- openDialog() -->
         Add task
     </button>
 
-    <app-form-container
-        #formContainer
-        (taskEmitted)="handleAddNewTask($event)"
-    ></app-form-container>
 </div>

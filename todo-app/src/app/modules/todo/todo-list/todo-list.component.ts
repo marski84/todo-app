@@ -7,6 +7,9 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToDoTask } from '../../shared/models/todoTask.interface';
 import * as uuid from 'uuid';
 import { ListOfTask } from '../../shared/models/listOfTask.interface';
+import { filter, map, tap } from 'rxjs';
+import { MatDialogConfig, MatDialog } from '@angular/material/dialog';
+import { FormContainerComponent } from '../form-container/form-container.component';
 
 @Component({
   selector: 'app-todo-list',
@@ -18,7 +21,7 @@ export class TodoListComponent implements OnInit {
 
   @Output() onTaskChangeEmitted = new EventEmitter<ListOfTask>();
 
-  constructor() {}
+  constructor(private matDialog: MatDialog) {}
 
   ngOnInit(): void {}
 
@@ -44,6 +47,8 @@ export class TodoListComponent implements OnInit {
   }
 
   handleAddNewTask(toDoTask: ToDoTask) {
+    console.log(toDoTask);
+
     if (!toDoTask) {
       return;
     }
@@ -54,8 +59,29 @@ export class TodoListComponent implements OnInit {
     this.onTaskChangeEmitted.emit(taskListCopy);
   }
 
-  openDialog() {
-    // logika otwarcia i nasłuchiwanie
+  openEditDialog() {
+    const dialogSettings: MatDialogConfig<FormContainerComponent> = {
+      width: '300px',
+      height: '300px',
+    };
+
+    const dialogRef = this.matDialog.open(
+      FormContainerComponent,
+      dialogSettings
+    );
+
+    dialogRef
+      .afterClosed()
+      .pipe(
+        // filter((value) => !!value),
+        tap((value) => console.log(value)),
+        map((data) => {
+          console.log(data);
+
+          this.handleAddNewTask(data);
+        })
+      )
+      .subscribe();
   }
 
   handleTaskEdit(formData: ToDoTask) {
